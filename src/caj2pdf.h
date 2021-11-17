@@ -12,6 +12,8 @@
 #include <QLineEdit>
 #include <QTextBrowser>
 #include <QProgressBar>
+#include <QFuture>
+#include <QtConcurrent/QtConcurrentRun>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CAJ2PDF; }
@@ -40,7 +42,8 @@ private slots:
 private:
     Ui::CAJ2PDF *ui;
     std::string currentPath;
-    void convert(std::string inputFile, std::string outputDirectory);
+    static void convert(CAJ2PDF *instance);
+    static void handleConvert(CAJ2PDF *instance, std::string inputFile);
 
     // 第一页
     QWidget *page1;
