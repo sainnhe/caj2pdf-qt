@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    CAJ2PDF w;
+    CAJ2PDF w(nullptr, argv[0]);
     w.show();
     return a.exec();
 }

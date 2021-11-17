@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
@@ -19,12 +19,13 @@ set(PROJECT_SOURCES
         caj2pdf.cpp
         caj2pdf.h
         caj2pdf.ui
+        convert.cpp
         page1.cpp
         page2.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(caj2pdf
+    qt_add_executable(caj2pdf WIN32 MACOSX_BUNDLE
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
@@ -40,7 +41,7 @@ else()
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(caj2pdf
+        add_executable(caj2pdf WIN32 MACOSX_BUNDLE
             ${PROJECT_SOURCES}
         )
     endif()

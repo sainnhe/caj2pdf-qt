@@ -1,10 +1,11 @@
 #include "caj2pdf.h"
 #include "./ui_caj2pdf.h"
 
-CAJ2PDF::CAJ2PDF(QWidget *parent)
+CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent)
     , ui(new Ui::CAJ2PDF) {
     ui->setupUi(this);
+    currentPath = argv0;
 
     // 第一页
     page1 = new QWidget(this);

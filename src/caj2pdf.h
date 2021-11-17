@@ -22,7 +22,7 @@ class CAJ2PDF : public QDialog
     Q_OBJECT
 
 public:
-    CAJ2PDF(QWidget *parent = nullptr);
+    CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
     ~CAJ2PDF();
 
 private slots:
@@ -39,6 +39,8 @@ private slots:
 
 private:
     Ui::CAJ2PDF *ui;
+    std::string currentPath;
+    bool convert(std::string inputFile, std::string outputDirectory);
 
     // 第一页
     QWidget *page1;

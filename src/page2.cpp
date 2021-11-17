@@ -30,4 +30,8 @@ void CAJ2PDF::handlePage2NextButton() {
     navigationList->setCurrentRow(2);
     navigationList->item(2)->setFlags(
             navigationList->item(2)->flags().setFlag(Qt::ItemIsEnabled, true));
+
+    for (QString inputFile : inputFiles) {
+        convert(inputFile.toStdString(), outputDirectory.toStdString());
+    }
 }
