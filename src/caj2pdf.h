@@ -40,7 +40,7 @@ private slots:
 private:
     Ui::CAJ2PDF *ui;
     std::string currentPath;
-    bool convert(std::string inputFile, std::string outputDirectory);
+    void convert(std::string inputFile, std::string outputDirectory);
 
     // 第一页
     QWidget *page1;
