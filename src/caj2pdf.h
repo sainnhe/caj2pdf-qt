@@ -31,6 +31,12 @@ private slots:
     void handlePage1CancelButton();
     void handlePage1NextButton();
 
+    // 第二页
+    void handlePage2SelectOutputButton();
+    void handlePage2CancelButton();
+    void handlePage2PrevButton();
+    void handlePage2NextButton();
+
 private:
     Ui::CAJ2PDF *ui;
 

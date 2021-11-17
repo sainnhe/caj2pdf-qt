@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
         caj2pdf.h
         caj2pdf.ui
         page1.cpp
+        page2.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

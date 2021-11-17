@@ -54,6 +54,10 @@ CAJ2PDF::CAJ2PDF(QWidget *parent)
     page2MainLayout->addLayout(page2TopLayout);
     page2MainLayout->addLayout(page2MiddleLayout);
     page2MainLayout->addLayout(page2BottomLayout);
+    connect(selectOutputButton, SIGNAL(clicked()), this, SLOT(handlePage2SelectOutputButton()));
+    connect(page2PrevButton, SIGNAL(clicked()), this, SLOT(handlePage2PrevButton()));
+    connect(page2CancelButton, SIGNAL(clicked()), this, SLOT(handlePage2CancelButton()));
+    connect(page2NextButton, SIGNAL(clicked()), this, SLOT(handlePage2NextButton()));
 
     // 第三页
     page3 = new QWidget(this);
