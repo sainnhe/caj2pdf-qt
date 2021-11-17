@@ -26,6 +26,9 @@ CAJ2PDF::CAJ2PDF(QWidget *parent)
     page1MainLayout->addLayout(page1TopLayout);
     page1MainLayout->addLayout(page1MiddleLayout);
     page1MainLayout->addLayout(page1BottomLayout);
+    connect(selectInputButton, SIGNAL(clicked()), this, SLOT(handlePage1SelectInputButton()));
+    connect(page1CancelButton, SIGNAL(clicked()), this, SLOT(handlePage1CancelButton()));
+    connect(page1NextButton, SIGNAL(clicked()), this, SLOT(handlePage1NextButton()));
 
     // 第二页
     page2 = new QWidget(this);

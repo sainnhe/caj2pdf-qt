@@ -25,6 +25,12 @@ public:
     CAJ2PDF(QWidget *parent = nullptr);
     ~CAJ2PDF();
 
+private slots:
+    // 第一页
+    void handlePage1SelectInputButton();
+    void handlePage1CancelButton();
+    void handlePage1NextButton();
+
 private:
     Ui::CAJ2PDF *ui;
 
