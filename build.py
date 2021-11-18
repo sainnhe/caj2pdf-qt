@@ -23,7 +23,7 @@ subprocess.run(["git", "apply", "../caj2pdf.diff"])
 subprocess.run(["python", "-m", "venv", "venv"])
 if platform.system() == "Windows":
     subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
-    subprocess.run([".\\venv\\Scripts\\python.exe", "-F", "caj2pdf"])
+    subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])
 else:
     subprocess.run(["./venv/bin/python", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
     subprocess.run(["./venv/bin/pyinstaller", "-F", "caj2pdf"])
