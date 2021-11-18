@@ -26,7 +26,7 @@ void Convert::handleConvert(CAJ2PDF *instance, std::string inputFile) {
     QString currentDirectory = QFileInfo(QString::fromStdString(instance->currentPath)).absolutePath();
     QString caj2pdfExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("caj2pdf"));
     QString mutoolExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("mutool"));
-    std::string inputFileName = std::filesystem::path(inputFile).filename();
+    std::string inputFileName = inputFile.substr(inputFile.find_last_of("/\\") + 1);
     std::string outputFileName = inputFileName.substr(0, inputFileName.find_last_of(".")) + ".pdf";
     QString outputFile = QDir(QString::fromStdString(instance->outputDirectory)).filePath(QString::fromStdString(outputFileName));
     emit requestUpdateUI(system((caj2pdfExecutablePath.toStdString() +

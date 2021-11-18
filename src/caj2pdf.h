@@ -16,6 +16,7 @@
 #include <QProgressBar>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrentRun>
+#include <filesystem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CAJ2PDF; }
