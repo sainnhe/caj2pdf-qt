@@ -119,7 +119,7 @@ class Convert : public QObject {
 
 public:
     explicit Convert(QObject *parent = 0) : QObject(parent) {}
-    void handleConvert(CAJ2PDF *instance, std::string inputFile);
+    void handleConvert(CAJ2PDF *instance, QString inputFileRaw);
 
 signals:
     void requestUpdateUI(int returnCode, std::string inputFile);
