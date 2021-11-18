@@ -11,7 +11,7 @@ void CAJ2PDF::handlePage1SelectInputButton() {
     }
     inputTextBrowser->setText(inputFilesText);
     outputTextBrowser->setText(inputFilesText);
-    std::string defaultDir = std::filesystem::path(inputFiles[0].toStdString()).parent_path().u8string();
+    std::string defaultDir = QDir::homePath().toStdString();
     selectOutputLineEdit->setText(QString::fromStdString(defaultDir));
 }
 

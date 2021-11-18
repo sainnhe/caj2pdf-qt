@@ -1,6 +1,5 @@
 #include "caj2pdf.h"
 #include <QDir>
-#include <filesystem>
 
 void CAJ2PDF::convert(CAJ2PDF *instance) {
     instance->convertStatus = statusConverting;

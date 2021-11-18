@@ -16,7 +16,7 @@ void CAJ2PDF::handlePage2PrevButton() {
 
 void CAJ2PDF::handlePage2NextButton() {
     if (convertStatus == statusNotStarted) {
-        if (!std::filesystem::is_directory(selectOutputLineEdit->text().toStdString())) {
+        if (!QDir(selectOutputLineEdit->text()).exists()) {
             QMessageBox::warning(this, tr("警告"), tr("请选择一个存在的目录"));
             return;
         }
