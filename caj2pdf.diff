@@ -1,0 +1,82 @@
+diff --git a/caj2pdf b/caj2pdf
+index 80a02de..166d11c 100755
+--- a/caj2pdf
++++ b/caj2pdf
+@@ -15,6 +15,7 @@ if __name__ == "__main__":
+     convert_parser = subparsers.add_parser("convert", help="Convert the CAJ file to PDF file.")
+     convert_parser.add_argument("input", help="Path to the CAJ file.")
+     convert_parser.add_argument("-o", "--output", help="Output path to the PDF file.", required=False)
++    convert_parser.add_argument("-m", "--mutool", help="Executable path to mutool.", required=True)
+ 
+     outlines_parser = subparsers.add_parser("outlines", help="Extract outlines from the CAJ file and add it to PDF file.")
+     outlines_parser.add_argument("input", help="Path to the CAJ file.")
+@@ -49,7 +50,7 @@ if __name__ == "__main__":
+                 args.output = os.path.splitext(args.input)[0] + ".pdf"
+             else:
+                 args.output = args.input + ".pdf"
+-        caj.convert(args.output)
++        caj.convert(args.output, args.mutool)
+ 
+     if args.command == "outlines":
+         caj = CAJParser(args.input)
+diff --git a/cajparser.py b/cajparser.py
+index 9a38379..141736f 100644
+--- a/cajparser.py
++++ b/cajparser.py
+@@ -106,9 +106,9 @@ class CAJParser(object):
+                 f.write(b'    ' * (toc["level"] - 1) + toc["title"]
+                         + b'    ' + str(toc["page"]).encode("utf-8") + b'\n')
+ 
+-    def convert(self, dest):
++    def convert(self, dest, mutool):
+         if self.format == "CAJ":
+-            self._convert_caj(dest)
++            self._convert_caj(dest, mutool)
+         elif self.format == "HN":
+             self._convert_hn(dest)
+         elif self.format == "C8":
+@@ -116,7 +116,7 @@ class CAJParser(object):
+         elif self.format == "PDF":
+             self._convert_pdf(dest)
+         elif self.format == "KDH":
+-            self._convert_kdh(dest)
++            self._convert_kdh(dest, mutool)
+ 
+     def parse(self):
+         if self.format == "CAJ":
+@@ -142,7 +142,7 @@ class CAJParser(object):
+         elif self.format == "KDH":
+             pass
+ 
+-    def _convert_caj(self, dest):
++    def _convert_caj(self, dest, mutool):
+         caj = open(self.filename, "rb")
+ 
+         # Extract original PDF data (and add header)
+@@ -284,7 +284,7 @@ class CAJParser(object):
+ 
+         # Use mutool to repair xref
+         try:
+-            check_output(["mutool", "clean", "pdf.tmp", "pdf_toc.pdf"], stderr=STDOUT)
++            check_output([mutool, "clean", "pdf.tmp", "pdf_toc.pdf"], stderr=STDOUT)
+         except CalledProcessError as e:
+             print(e.output.decode("utf-8"))
+             raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
+@@ -555,7 +555,7 @@ class CAJParser(object):
+     def _convert_pdf(self, dest):
+         copy(self.filename, dest)
+ 
+-    def _convert_kdh(self, dest):
++    def _convert_kdh(self, dest, mutool):
+         #  Read KDH file.
+         fp = open(self.filename, "rb")
+         origin = fp.read()
+@@ -585,7 +585,7 @@ class CAJParser(object):
+ 
+         # Use mutool to repair xref
+         try:
+-            check_output(["mutool", "clean", dest + ".tmp", dest], stderr=STDOUT)
++            check_output([mutool, "clean", dest + ".tmp", dest], stderr=STDOUT)
+         except CalledProcessError as e:
+             print(e.output.decode("utf-8"))
+             raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))

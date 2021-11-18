@@ -1,3 +1,6 @@
 [submodule "caj2pdf"]
 	path = caj2pdf
 	url = https://github.com/caj2pdf/caj2pdf.git
+[submodule "mupdf"]
+	path = mupdf
+	url = https://github.com/ArtifexSoftware/mupdf.git
