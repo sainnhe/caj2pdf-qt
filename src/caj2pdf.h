@@ -26,6 +26,8 @@ class CAJ2PDF : public QDialog
 public:
     CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
     ~CAJ2PDF();
+    std::string outputDirectory;
+    std::string currentPath;
 
 private slots:
     // 第一页
@@ -39,11 +41,12 @@ private slots:
     void handlePage2PrevButton();
     void handlePage2NextButton();
 
+    // 第三页
+    void updatePage3UI(int returnCode, std::string inputFile);
+
 private:
     Ui::CAJ2PDF *ui;
-    std::string currentPath;
     static void convert(CAJ2PDF *instance);
-    static void handleConvert(CAJ2PDF *instance, std::string inputFile);
 
     // 第一页
     QWidget *page1;
@@ -63,7 +66,6 @@ private:
     QLabel *selectOutputLabel;
     QLineEdit *selectOutputLineEdit;
     QPushButton *selectOutputButton;
-    QString outputDirectory;
     QTextBrowser *outputTextBrowser;
     QPushButton *page2CancelButton;
     QPushButton *page2PrevButton;
@@ -93,4 +95,16 @@ private:
     QStackedWidget *stack;
     QHBoxLayout *mainLayout;
 };
+
+class Convert : public QObject {
+    Q_OBJECT
+
+public:
+    explicit Convert(QObject *parent = 0) : QObject(parent) {}
+    void handleConvert(CAJ2PDF *instance, std::string inputFile);
+
+signals:
+    void requestUpdateUI(int returnCode, std::string inputFile);
+};
+
 #endif // CAJ2PDF_H
