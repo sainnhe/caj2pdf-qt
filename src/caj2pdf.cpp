@@ -7,6 +7,11 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     ui->setupUi(this);
     currentPath = argv0;
     convertStatus = statusNotStarted;
+    if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
+        codecType = "GB2312";
+    } else {
+        codecType = "UTF-8";
+    }
 
     // 第一页
     page1 = new QWidget(this);

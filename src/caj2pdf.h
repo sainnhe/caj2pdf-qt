@@ -16,6 +16,8 @@
 #include <QProgressBar>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrentRun>
+#include <QTextCodec>
+#include <QSysInfo>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CAJ2PDF; }
@@ -37,6 +39,7 @@ public:
     std::string outputDirectory;
     std::string currentPath;
     ConvertStatus convertStatus;
+    std::string codecType;
 
     // 第三页
     QPushButton *page3NextButton;

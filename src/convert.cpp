@@ -3,10 +3,11 @@
 
 void CAJ2PDF::convert(CAJ2PDF *instance) {
     instance->convertStatus = statusConverting;
+    QTextCodec *codec = QTextCodec::codecForName(instance->codecType.c_str());
     for (QString inputFile : instance->inputFiles) {
         Convert *convertor = new Convert();
         connect(convertor, SIGNAL(requestUpdateUI(int, std::string)), instance, SLOT(updatePage3UI(int, std::string)));
-        convertor->handleConvert(instance, inputFile.toStdString());
+        convertor->handleConvert(instance, codec->fromUnicode(inputFile).data());
     }
     instance->convertStatus = statusFinished;
     instance->page3NextButton->setDisabled(false);
