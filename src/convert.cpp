@@ -2,6 +2,11 @@
 #include <QDir>
 #ifdef _WIN32
 #include <windows.h>
+#else
+#define SW_HIDE "none"
+int WinExec(bool a, std::string b) {
+    return 0;
+}
 #endif
 
 void CAJ2PDF::convert(CAJ2PDF *instance) {
