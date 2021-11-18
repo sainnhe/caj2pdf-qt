@@ -3,11 +3,14 @@
 #include <filesystem>
 
 void CAJ2PDF::convert(CAJ2PDF *instance) {
+    instance->convertStatus = statusConverting;
     for (QString inputFile : instance->inputFiles) {
         Convert *convertor = new Convert();
         connect(convertor, SIGNAL(requestUpdateUI(int, std::string)), instance, SLOT(updatePage3UI(int, std::string)));
         convertor->handleConvert(instance, inputFile.toStdString());
     }
+    instance->convertStatus = statusFinished;
+    instance->page3NextButton->setDisabled(false);
 }
 
 void CAJ2PDF::updatePage3UI(int returnCode, std::string inputFile) {

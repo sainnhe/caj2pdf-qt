@@ -1,7 +1,9 @@
 #ifndef CAJ2PDF_H
 #define CAJ2PDF_H
 
+#include <QApplication>
 #include <QDialog>
+#include <QMessageBox>
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QHBoxLayout>
@@ -19,6 +21,12 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class CAJ2PDF; }
 QT_END_NAMESPACE
 
+enum ConvertStatus {
+    statusNotStarted,
+    statusConverting,
+    statusFinished
+};
+
 class CAJ2PDF : public QDialog
 {
     Q_OBJECT
@@ -28,21 +36,28 @@ public:
     ~CAJ2PDF();
     std::string outputDirectory;
     std::string currentPath;
+    ConvertStatus convertStatus;
+
+    // 第三页
+    QPushButton *page3NextButton;
 
 private slots:
+    // 总体
+    void handleCancelButton();
+
     // 第一页
     void handlePage1SelectInputButton();
-    void handlePage1CancelButton();
     void handlePage1NextButton();
 
     // 第二页
     void handlePage2SelectOutputButton();
-    void handlePage2CancelButton();
     void handlePage2PrevButton();
     void handlePage2NextButton();
 
     // 第三页
     void updatePage3UI(int returnCode, std::string inputFile);
+    void handlePage3PrevButton();
+    void handlePage3NextButton();
 
 private:
     Ui::CAJ2PDF *ui;
@@ -80,8 +95,8 @@ private:
     QLabel *progressLabel;
     QProgressBar *progressBar;
     QTextBrowser *statusTextBrowser;
+    QPushButton *page3CancelButton;
     QPushButton *page3PrevButton;
-    QPushButton *page3NextButton;
     QHBoxLayout *page3TopLayout;
     QHBoxLayout *page3MiddleLayout;
     QHBoxLayout *page3BottomLayout;

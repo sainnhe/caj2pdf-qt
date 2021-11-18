@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         convert.cpp
         page1.cpp
         page2.cpp
+        page3.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

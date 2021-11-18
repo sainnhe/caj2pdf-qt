@@ -1,6 +1,4 @@
 #include "caj2pdf.h"
-#include <QApplication>
-#include <QMessageBox>
 #include <QFileDialog>
 #include <string>
 
@@ -15,10 +13,6 @@ void CAJ2PDF::handlePage1SelectInputButton() {
     outputTextBrowser->setText(inputFilesText);
     std::string defaultDir = std::filesystem::path(inputFiles[0].toStdString()).parent_path().u8string();
     selectOutputLineEdit->setText(QString::fromStdString(defaultDir));
-}
-
-void CAJ2PDF::handlePage1CancelButton() {
-    QApplication::quit();
 }
 
 void CAJ2PDF::handlePage1NextButton() {

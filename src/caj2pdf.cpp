@@ -6,6 +6,7 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     , ui(new Ui::CAJ2PDF) {
     ui->setupUi(this);
     currentPath = argv0;
+    convertStatus = statusNotStarted;
 
     // 第一页
     page1 = new QWidget(this);
@@ -28,7 +29,7 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     page1MainLayout->addLayout(page1MiddleLayout);
     page1MainLayout->addLayout(page1BottomLayout);
     connect(selectInputButton, SIGNAL(clicked()), this, SLOT(handlePage1SelectInputButton()));
-    connect(page1CancelButton, SIGNAL(clicked()), this, SLOT(handlePage1CancelButton()));
+    connect(page1CancelButton, SIGNAL(clicked()), this, SLOT(handleCancelButton()));
     connect(page1NextButton, SIGNAL(clicked()), this, SLOT(handlePage1NextButton()));
 
     // 第二页
@@ -57,7 +58,7 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     page2MainLayout->addLayout(page2BottomLayout);
     connect(selectOutputButton, SIGNAL(clicked()), this, SLOT(handlePage2SelectOutputButton()));
     connect(page2PrevButton, SIGNAL(clicked()), this, SLOT(handlePage2PrevButton()));
-    connect(page2CancelButton, SIGNAL(clicked()), this, SLOT(handlePage2CancelButton()));
+    connect(page2CancelButton, SIGNAL(clicked()), this, SLOT(handleCancelButton()));
     connect(page2NextButton, SIGNAL(clicked()), this, SLOT(handlePage2NextButton()));
 
     // 第三页
@@ -66,8 +67,10 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     progressBar = new QProgressBar(page3);
     statusTextBrowser = new QTextBrowser(page3);
     statusTextBrowser->setMinimumWidth(500);
+    page3CancelButton = new QPushButton(tr("取消"), page3);
     page3PrevButton = new QPushButton(tr("上一步"), page3);
     page3NextButton = new QPushButton(tr("完成"), page3);
+    page3NextButton->setDisabled(true);
     page3TopLayout = new QHBoxLayout();
     page3TopLayout->addWidget(progressLabel, 0, Qt::AlignLeft);
     page3TopLayout->addWidget(progressBar);
@@ -75,12 +78,16 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     page3MiddleLayout = new QHBoxLayout();
     page3MiddleLayout->addWidget(statusTextBrowser);
     page3BottomLayout = new QHBoxLayout();
-    page3BottomLayout->addWidget(page3PrevButton, 3, Qt::AlignRight);
+    page3BottomLayout->addWidget(page3CancelButton, 2, Qt::AlignRight);
+    page3BottomLayout->addWidget(page3PrevButton, 0, Qt::AlignRight);
     page3BottomLayout->addWidget(page3NextButton, 0, Qt::AlignRight);
     page3MainLayout = new QVBoxLayout(page3);
     page3MainLayout->addLayout(page3TopLayout);
     page3MainLayout->addLayout(page3MiddleLayout);
     page3MainLayout->addLayout(page3BottomLayout);
+    connect(page3PrevButton, SIGNAL(clicked()), this, SLOT(handlePage3PrevButton()));
+    connect(page3CancelButton, SIGNAL(clicked()), this, SLOT(handleCancelButton()));
+    connect(page3NextButton, SIGNAL(clicked()), this, SLOT(handlePage3NextButton()));
 
     // 总体
     navigationList = new QListWidget(this);
@@ -113,3 +120,20 @@ CAJ2PDF::~CAJ2PDF() {
     delete ui;
 }
 
+void CAJ2PDF::handleCancelButton() {
+    if (convertStatus == statusNotStarted || convertStatus == statusFinished) {
+        QApplication::quit();
+    } else {
+        switch (QMessageBox::question(this, tr("警告"),
+                    tr("转换尚未完成，是否要结束程序？"),
+                    QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok)) {
+            case QMessageBox::Ok:
+                QApplication::quit();
+                break;
+            case QMessageBox::Cancel:
+                break;
+            default:
+                break;
+        }
+    }
+}
