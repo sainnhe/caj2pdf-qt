@@ -33,23 +33,21 @@ void Convert::handleConvert(CAJ2PDF *instance, QString inputFileRaw) {
     QTextCodec *codec = QTextCodec::codecForName(instance->codecType.c_str());
     std::string inputFile = codec->fromUnicode(inputFileRaw).data();
     QString currentDirectory = QFileInfo(QString::fromStdString(instance->currentPath)).absolutePath();
-    QString caj2pdfExecutablePathRaw = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("caj2pdf"));
-    std::string caj2pdfExecutablePath = codec->fromUnicode(caj2pdfExecutablePathRaw).data();
-    QString mutoolExecutablePathRaw = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("mutool"));
-    std::string mutoolExecutablePath = codec->fromUnicode(mutoolExecutablePathRaw).data();
+    QString caj2pdfExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("caj2pdf"));
+    QString mutoolExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("mutool"));
     std::string inputFileName = inputFileRaw.toStdString().substr(inputFileRaw.toStdString().find_last_of("/\\") + 1);
     std::string outputFileName = inputFileName.substr(0, inputFileName.find_last_of(".")) + ".pdf";
     QString outputFileRaw = QDir(QString::fromStdString(instance->outputDirectory)).filePath(QString::fromStdString(outputFileName));
     std::string outputFile = codec->fromUnicode(outputFileRaw).data();
     if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
-        emit requestUpdateUI(WinExec((caj2pdfExecutablePath +
+        emit requestUpdateUI(WinExec((caj2pdfExecutablePath.toStdString() +
                         " convert \"" + inputFile +
                         "\" -o \"" + outputFile +
-                        "\" -m \"" + mutoolExecutablePath + "\"").c_str(), SW_HIDE) <= 31, inputFileRaw.toStdString());
+                        "\" -m \"" + mutoolExecutablePath.toStdString() + "\"").c_str(), SW_HIDE) <= 31, inputFileRaw.toStdString());
     } else {
-        emit requestUpdateUI(system((caj2pdfExecutablePath +
+        emit requestUpdateUI(system((caj2pdfExecutablePath.toStdString() +
                         " convert \"" + inputFile +
                         "\" -o \"" + outputFile +
-                        "\" -m \"" + mutoolExecutablePath + "\"").c_str()), inputFileRaw.toStdString());
+                        "\" -m \"" + mutoolExecutablePath.toStdString() + "\"").c_str()), inputFileRaw.toStdString());
     }
 }
