@@ -44,6 +44,9 @@ public:
     // 第三页
     QPushButton *page3NextButton;
 
+protected:
+    virtual bool eventFilter(QObject *object, QEvent *event);
+
 private slots:
     // 总体
     void handleCancelButton();
@@ -65,6 +68,7 @@ private slots:
 private:
     Ui::CAJ2PDF *ui;
     static void convert(CAJ2PDF *instance);
+    void handleWhatsThisEntry();
 
     // 第一页
     QWidget *page1;
