@@ -1,5 +1,13 @@
 #!/usr/bin/python
 
+# -----------------------------------------------------------------------------
+# Name:           CAJ2PDF Qt
+# Description:    CAJ 转 PDF 转换器
+# Author:         Sainnhe Park <sainnhe@gmail.com>
+# Website:        https://github.com/sainnhe/caj2pdf-qt
+# License:        GPL3
+# -----------------------------------------------------------------------------
+
 import os
 import platform
 import subprocess
