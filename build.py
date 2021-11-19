@@ -11,7 +11,7 @@
 import os
 import platform
 import subprocess
-from shutil import move
+from shutil import move, copyfile
 
 # update submodules
 workdir = os.getcwd()
@@ -29,7 +29,7 @@ if os.name != "nt":
     subprocess.run(["gcc", "-Wall", "-fPIC", "--shared", "-o", "libjbigdec.so", "jbigdec.cc", "JBigDecode.cc"])
     subprocess.run(["gcc", "-Wall", pkg_config_cflags, "-fPIC", "-shared", "-o", "libjbig2codec.so", "decode_jbig2data_x.cc", pkg_config_libs[0], pkg_config_libs[1]])
 os.chdir(workdir_caj2pdf)
-subprocess.run(["git", "apply", "../caj2pdf.diff"])
+subprocess.run(["git", "apply", "../diff/caj2pdf.diff"])
 subprocess.run(["python", "-m", "venv", "venv"])
 if platform.system() == "Windows":
     subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
@@ -37,6 +37,7 @@ if platform.system() == "Windows":
 else:
     subprocess.run(["./venv/bin/python", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
     subprocess.run(["./venv/bin/pyinstaller", "-F", "caj2pdf"])
+subprocess.run(["git", "checkout", "--", "."])
 
 # build mupdf
 if os.name != "nt":
@@ -65,10 +66,12 @@ os.chdir(build_dir)
 if platform.system() == "Darwin":
     move(os.path.join(src_dir, "caj2pdf.app"),
          os.path.join(build_dir, "caj2pdf.app"))
+    move(os.path.join(build_dir, "external"),
+         os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"))
+    os.mkdir(os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "Resources"))
+    copyfile(os.path.join(os.path.join(workdir, "icons"), "convert.icns"),
+             os.path.join(os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "Resources"), "convert.icns"))
+    os.system("patch --strip=1 <../diff/Info.plist.diff")
 elif platform.system() != "Windows":
     move(os.path.join(src_dir, "caj2pdf"),
          os.path.join(build_dir, "caj2pdf"))
-
-# post-build hook
-os.chdir(workdir_caj2pdf)
-subprocess.run(["git", "checkout", "--", "."])
