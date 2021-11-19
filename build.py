@@ -8,7 +8,9 @@ from shutil import move
 # update submodules
 workdir = os.getcwd()
 os.chdir(workdir)
-subprocess.run(["git", "submodule", "update", "--init", "--recursive"])
+subprocess.run(["git", "submodule", "update", "--init", "--recursive", "caj2pdf"])
+if os.name != "nt":
+    subprocess.run(["git", "submodule", "update", "--init", "--recursive", "mupdf"])
 
 # build caj2pdf
 workdir_caj2pdf = os.path.join(workdir, "caj2pdf")
@@ -29,9 +31,10 @@ else:
     subprocess.run(["./venv/bin/pyinstaller", "-F", "caj2pdf"])
 
 # build mupdf
-workdir_mupdf = os.path.join(workdir, "mupdf")
-os.chdir(workdir_mupdf)
-subprocess.run(["make"])
+if os.name != "nt":
+    workdir_mupdf = os.path.join(workdir, "mupdf")
+    os.chdir(workdir_mupdf)
+    subprocess.run(["make"])
 
 # build project
 build_dir = os.path.join(workdir, "build")
@@ -41,7 +44,8 @@ os.mkdir(build_dir)
 os.mkdir(build_external_dir)
 move(os.path.join(os.path.join(workdir_caj2pdf, "dist"), "caj2pdf"),
          os.path.join(build_external_dir, "caj2pdf"))
-move(os.path.join(os.path.join(os.path.join(workdir_mupdf, "build"), "release"), "mutool"),
+if os.name != "nt":
+    move(os.path.join(os.path.join(os.path.join(workdir_mupdf, "build"), "release"), "mutool"),
          os.path.join(build_external_dir, "mutool"))
 os.chdir(src_dir)
 subprocess.run(["cmake", "."])
@@ -50,10 +54,13 @@ os.chdir(build_dir)
 if platform.system() == "Darwin":
     move(os.path.join(src_dir, "caj2pdf.app"),
          os.path.join(build_dir, "caj2pdf.app"))
+elif platform.system() == "Windows":
+    move(os.path.join(src_dir, "caj2pdf.exe"),
+         os.path.join(build_dir, "caj2pdf.exe"))
 else:
     move(os.path.join(src_dir, "caj2pdf"),
          os.path.join(build_dir, "caj2pdf"))
 
-# clean
+# post-build hook
 os.chdir(workdir_caj2pdf)
 subprocess.run(["git", "checkout", "--", "."])
