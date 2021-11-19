@@ -5,10 +5,11 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent)
     , ui(new Ui::CAJ2PDF) {
     ui->setupUi(this);
-    setWindowFlags(windowFlags() | Qt::WindowContextHelpButtonHint);
-    qApp->installEventFilter(this);
-    currentPath = argv0;
-    convertStatus = statusNotStarted;
+    setWindowFlags(windowFlags() | Qt::WindowContextHelpButtonHint);    // 启用窗口右上角的 ？按钮
+    qApp->installEventFilter(this);     // 安装事件
+    currentPath = argv0;                // 设置此二进制可执行文件的路径，用来定位 /external 目录
+    convertStatus = statusNotStarted;   // 设置转换状态
+    // 根据操作系统的不同设置编码方式
     if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
         codecType = "GB2312";
     } else {
@@ -127,6 +128,14 @@ CAJ2PDF::~CAJ2PDF() {
     delete ui;
 }
 
+/**
+ * @brief 处理取消按钮
+ *
+ * 若正在转换中，则弹出消息框询问是否确定结束程序；
+ *
+ * 否则直接结束程序。
+ *
+ */
 void CAJ2PDF::handleCancelButton() {
     if (convertStatus == statusNotStarted || convertStatus == statusFinished) {
         QApplication::quit();
@@ -145,6 +154,13 @@ void CAJ2PDF::handleCancelButton() {
     }
 }
 
+/**
+ * @brief 若筛选出 EnterWhatsThisMode 事件，则执行 handleWhatsThisEntry()
+ *
+ * @param object 待筛选的对象
+ * @param event 待筛选的事件
+ * @return 筛选是否成功
+ */
 bool CAJ2PDF::eventFilter(QObject *object, QEvent *event) {
     if (event->type() == QEvent::EnterWhatsThisMode) {
         handleWhatsThisEntry();
@@ -153,6 +169,10 @@ bool CAJ2PDF::eventFilter(QObject *object, QEvent *event) {
     return QObject::eventFilter(object, event);
 }
 
+/**
+ * @brief 弹出一个关于本项目信息的消息框
+ *
+ */
 void CAJ2PDF::handleWhatsThisEntry() {
     QMessageBox::information(this, tr("关于"), tr("<h2 align=\"center\">关于本项目</h2><br><p style=\"line-height:150%\">这是一个免费开源的 CAJ 转 PDF 转换器，基于 <a href=\"https://github.com/caj2pdf/caj2pdf\">cajpdf</a> 和 <a href=\"https://mupdf.com/\">mupdf</a> 实现。<br>主页：<a href=\"https://github.com/sainnhe/caj2pdf-qt\">https://github.com/sainnhe/caj2pdf-qt</a><br>作者：<a href=\"mailto:sainnhe@gmail.com\">Sainnhe Park</a><br>许可：GPL3</p>"));
 }

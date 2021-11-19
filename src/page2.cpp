@@ -1,6 +1,12 @@
 #include "caj2pdf.h"
 #include <QFileDialog>
 
+/**
+ * @brief 第二页的选择输出目录按钮
+ *
+ * 打开一个目录选择窗口来选择目录，将结果放入 outputDirectory
+ *
+ */
 void CAJ2PDF::handlePage2SelectOutputButton() {
     outputDirectory = QFileDialog::getExistingDirectory(this,
             tr("选择目录"),
@@ -9,11 +15,27 @@ void CAJ2PDF::handlePage2SelectOutputButton() {
     selectOutputLineEdit->setText(QString::fromStdString(outputDirectory));
 }
 
+/**
+ * @brief 第二页的上一步按钮
+ *
+ * 更新 stack 和 navigationList, 切换到上一页；
+ *
+ */
 void CAJ2PDF::handlePage2PrevButton() {
     stack->setCurrentIndex(0);
     navigationList->setCurrentRow(0);
 }
 
+/**
+ * @brief 第二页的下一步按钮
+ *
+ * 如果转换正在进行中或者已结束，则只更新 stack 和 navigationList 来切换页面；
+ *
+ * 否则先检测输出目录是否存在，若不存在则弹出一个警告框并返回；
+ *
+ * 若存在则更新 outputDirectory 和 progressBar ，然后开始异步转换。
+ *
+ */
 void CAJ2PDF::handlePage2NextButton() {
     if (convertStatus == statusNotStarted) {
         if (!QDir(selectOutputLineEdit->text()).exists()) {

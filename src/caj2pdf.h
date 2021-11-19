@@ -23,10 +23,11 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class CAJ2PDF; }
 QT_END_NAMESPACE
 
+// 转换状态
 enum ConvertStatus {
-    statusNotStarted,
-    statusConverting,
-    statusFinished
+    statusNotStarted,   // 尚未开始
+    statusConverting,   // 正在转换
+    statusFinished      // 转换完成
 };
 
 class CAJ2PDF : public QDialog
@@ -36,16 +37,16 @@ class CAJ2PDF : public QDialog
 public:
     CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
     ~CAJ2PDF();
-    std::string outputDirectory;
-    std::string currentPath;
-    ConvertStatus convertStatus;
-    std::string codecType;
+    std::string outputDirectory;    // 输出目录，默认为第一个输入文件所在的目录
+    std::string currentPath;        // 编译出来的可执行文件的路径，用来定位 /external/caj2pdf 和 /external/mutool
+    ConvertStatus convertStatus;    // 转换状态，用来设置按钮的行为
+    std::string codecType;          // 编码类型，用来解决 windows 下的中文路径问题
 
     // 第三页
     QPushButton *page3NextButton;
 
 protected:
-    virtual bool eventFilter(QObject *object, QEvent *event);
+    virtual bool eventFilter(QObject *object, QEvent *event);   // windows 下的 ？按钮触发的事件
 
 private slots:
     // 总体
@@ -68,7 +69,7 @@ private slots:
 private:
     Ui::CAJ2PDF *ui;
     static void convert(CAJ2PDF *instance);
-    void handleWhatsThisEntry();
+    void handleWhatsThisEntry();    // windows 下的 ？按钮所调用的函数
 
     // 第一页
     QWidget *page1;
@@ -118,6 +119,8 @@ private:
     QHBoxLayout *mainLayout;
 };
 
+// 定义一个 Convert 类，在 CAJ2PDF 对象中通过异步来转换文件以防止界面卡顿
+// Convert 对象的转换结果通过 signals && slots 来和 CAJ2PDF 对象进行交互，以更新 page3 的界面
 class Convert : public QObject {
     Q_OBJECT
 
