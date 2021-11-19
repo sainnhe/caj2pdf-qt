@@ -11,8 +11,6 @@ void CAJ2PDF::handlePage1SelectInputButton() {
     }
     inputTextBrowser->setText(inputFilesText);
     outputTextBrowser->setText(inputFilesText);
-    std::string defaultDir = QDir::homePath().toStdString();
-    selectOutputLineEdit->setText(QString::fromStdString(defaultDir));
 }
 
 void CAJ2PDF::handlePage1NextButton() {
@@ -24,4 +22,6 @@ void CAJ2PDF::handlePage1NextButton() {
     navigationList->setCurrentRow(1);
     navigationList->item(1)->setFlags(
             navigationList->item(1)->flags().setFlag(Qt::ItemIsEnabled, true));
+    std::string defaultDir = QFileInfo(inputFiles[0]).absoluteDir().absolutePath().toStdString();
+    selectOutputLineEdit->setText(QString::fromStdString(defaultDir));
 }

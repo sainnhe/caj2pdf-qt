@@ -4,7 +4,7 @@
 void CAJ2PDF::handlePage2SelectOutputButton() {
     outputDirectory = QFileDialog::getExistingDirectory(this,
             tr("选择目录"),
-            QDir::homePath(),
+            selectOutputLineEdit->text(),
             QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks).toStdString();
     selectOutputLineEdit->setText(QString::fromStdString(outputDirectory));
 }
