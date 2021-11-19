@@ -58,16 +58,14 @@ if os.name != "nt":
 os.chdir(src_dir)
 if platform.system() == "Windows":
     subprocess.run(["windres", "app.rc", "-o", "app.o"])
-subprocess.run(["cmake", "."])
-subprocess.run(["cmake", "--build", "."])
+else:
+    subprocess.run(["cmake", "."])
+    subprocess.run(["cmake", "--build", "."])
 os.chdir(build_dir)
 if platform.system() == "Darwin":
     move(os.path.join(src_dir, "caj2pdf.app"),
          os.path.join(build_dir, "caj2pdf.app"))
-elif platform.system() == "Windows":
-    move(os.path.join(src_dir, "caj2pdf.exe"),
-         os.path.join(build_dir, "caj2pdf.exe"))
-else:
+elif platform.system() != "Windows":
     move(os.path.join(src_dir, "caj2pdf"),
          os.path.join(build_dir, "caj2pdf"))
 
