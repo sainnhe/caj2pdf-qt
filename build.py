@@ -56,6 +56,8 @@ if os.name != "nt":
     move(os.path.join(os.path.join(os.path.join(workdir_mupdf, "build"), "release"), "mutool"),
          os.path.join(build_external_dir, "mutool"))
 os.chdir(src_dir)
+if platform.system() == "Windows":
+    subprocess.run(["windres", "app.rc", "-o", "app.o"])
 subprocess.run(["cmake", "."])
 subprocess.run(["cmake", "--build", "."])
 os.chdir(build_dir)

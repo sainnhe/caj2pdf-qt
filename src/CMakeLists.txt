@@ -15,6 +15,11 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
 
+IF (WIN32)
+    set(RC app.o)
+ELSE()
+    set(RC)
+ENDIF()
 set(PROJECT_SOURCES
         main.cpp
         caj2pdf.cpp
@@ -24,6 +29,7 @@ set(PROJECT_SOURCES
         page1.cpp
         page2.cpp
         page3.cpp
+        ${RC}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
