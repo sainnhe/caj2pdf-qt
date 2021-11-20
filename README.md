@@ -20,7 +20,7 @@
 
 请移步 [GitHub Issues](https://github.com/sainnhe/caj2pdf-qt/issues)。
 
-## 重要变更
+## 变更
 
 请移步 [CHANGELOG.md](./CHANGELOG.md)。
 
