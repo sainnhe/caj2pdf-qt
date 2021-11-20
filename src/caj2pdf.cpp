@@ -12,7 +12,7 @@
 CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent)
     , ui(new Ui::CAJ2PDF) {
-    version = "0.1.0-beta";
+    version = "0.1.0";
     ui->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowContextHelpButtonHint);    // 启用窗口右上角的 ？按钮
     qApp->installEventFilter(this);     // 安装事件
