@@ -20,6 +20,10 @@
 
 请移步 [GitHub Issues](https://github.com/sainnhe/caj2pdf-qt/issues)。
 
+## 重要变更
+
+请移步 [CHANGELOG.md](./CHANGELOG.md)。
+
 ## 许可
 
 `/caj2pdf` 和 `/mupdf` 目录下的源代码请参考对应的项目；
