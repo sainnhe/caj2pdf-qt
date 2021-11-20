@@ -14,7 +14,7 @@
 
 那么它的 fastgit 镜像下载链接为 [https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.1/caj2pdf-qt-windows-x86_64-0.1.1.zip](https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.1/caj2pdf-qt-windows-x86_64-0.1.1.zip)。
 
-Arch Linux 用户可以从 AUR 安装：[caj2pdf-qt](https://aur.archlinux.org/packages/caj2pdf-qt/)
+Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/) 或我的[个人仓库](https://repo.sainnhe.dev/)安装。
 
 其它操作系统和架构的用户需要从源代码编译，参考 [BUILD.md](./BUILD.md)。
 
