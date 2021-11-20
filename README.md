@@ -18,6 +18,6 @@
 
 ## 许可
 
-[/caj2pdf](./caj2pdf) 和 [/mupdf](./mupdf) 目录下的源代码请参考对应的项目；
+`/caj2pdf` 和 `/mupdf` 目录下的源代码请参考对应的项目；
 
 其余部分的代码以 [GPL3](./LICENSE) 分发。
