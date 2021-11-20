@@ -51,9 +51,9 @@ build_external_dir = os.path.join(build_dir, "external")
 src_dir = os.path.join(workdir, "src")
 os.mkdir(build_dir)
 os.mkdir(build_external_dir)
-move(os.path.join(os.path.join(workdir_caj2pdf, "dist"), "caj2pdf"),
-         os.path.join(build_external_dir, "caj2pdf"))
 if os.name != "nt":
+    move(os.path.join(os.path.join(workdir_caj2pdf, "dist"), "caj2pdf"),
+         os.path.join(build_external_dir, "caj2pdf"))
     move(os.path.join(os.path.join(os.path.join(workdir_mupdf, "build"), "release"), "mutool"),
          os.path.join(build_external_dir, "mutool"))
 os.chdir(src_dir)
