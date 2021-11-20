@@ -12,6 +12,7 @@
 CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent)
     , ui(new Ui::CAJ2PDF) {
+    version = "0.1.0-beta";
     ui->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowContextHelpButtonHint);    // 启用窗口右上角的 ？按钮
     qApp->installEventFilter(this);     // 安装事件
@@ -182,5 +183,5 @@ bool CAJ2PDF::eventFilter(QObject *object, QEvent *event) {
  *
  */
 void CAJ2PDF::handleWhatsThisEntry() {
-    QMessageBox::information(this, tr("关于"), tr("<h2 align=\"center\">关于本项目</h2><br><p style=\"line-height:150%\">这是一个免费开源的 CAJ 转 PDF 转换器，基于 <a href=\"https://github.com/caj2pdf/caj2pdf\">cajpdf</a> 和 <a href=\"https://mupdf.com/\">mupdf</a> 实现。<br>主页：<a href=\"https://github.com/sainnhe/caj2pdf-qt\">https://github.com/sainnhe/caj2pdf-qt</a><br>作者：<a href=\"mailto:sainnhe@gmail.com\">Sainnhe Park</a><br>许可：GPL3</p>"));
+    QMessageBox::information(this, tr("关于"), tr(std::string("<h2 align=\"center\">关于本项目</h2><br><p style=\"line-height:150%\">这是一个免费开源的 CAJ 转 PDF 转换器，基于 <a href=\"https://github.com/caj2pdf/caj2pdf\">cajpdf</a> 和 <a href=\"https://mupdf.com/\">mupdf</a> 实现。<br>主页：<a href=\"https://github.com/sainnhe/caj2pdf-qt\">https://github.com/sainnhe/caj2pdf-qt</a><br>作者：<a href=\"mailto:sainnhe@gmail.com\">Sainnhe Park</a><br>许可：GPL3<br>版本：" + version + "</p>").c_str()));
 }

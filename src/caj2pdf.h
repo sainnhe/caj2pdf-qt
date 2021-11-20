@@ -75,6 +75,7 @@ private slots:
     void handlePage3NextButton();
 
 private:
+    std::string version;
     Ui::CAJ2PDF *ui;
     static void convert(CAJ2PDF *instance);
     void handleWhatsThisEntry();    // windows 下的 ？按钮所调用的函数
