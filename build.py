@@ -43,7 +43,7 @@ subprocess.run(["git", "checkout", "--", "."])
 if os.name != "nt":
     workdir_mupdf = os.path.join(workdir, "mupdf")
     os.chdir(workdir_mupdf)
-    subprocess.run(["make"])
+    subprocess.run(["make", "--jobs=" + str(os.cpu_count())])
 
 # build project
 build_dir = os.path.join(workdir, "build")
@@ -61,7 +61,7 @@ if platform.system() == "Windows":
     subprocess.run(["windres", "app.rc", "-o", "app.o"])
 else:
     subprocess.run(["cmake", "."])
-    subprocess.run(["cmake", "--build", "."])
+    subprocess.run(["cmake", "--build", ".", "--config", "Release", "--", "--jobs=" + str(os.cpu_count())])
 os.chdir(build_dir)
 if platform.system() == "Darwin":
     move(os.path.join(src_dir, "caj2pdf.app"),
