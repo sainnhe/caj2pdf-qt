@@ -12,6 +12,8 @@
 ### Steps
 
 ```shell
+> git clone --depth 1 https://github.com/sainnhe/caj2pdf-qt.git
+> cd caj2pdf-qt
 > python .\build.py
 ```
 
@@ -43,7 +45,8 @@
 ### Steps
 
 ```shell
-$ cd /path/to/caj2pdf-qt
+$ git clone --depth 1 https://github.com/sainnhe/caj2pdf-qt.git
+$ cd caj2pdf-qt
 $ ./build.py
 ```
 
@@ -59,7 +62,8 @@ $ ./build.py
 ### Steps
 
 ```shell
-$ cd /path/to/caj2pdf-qt
+$ git clone --depth 1 https://github.com/sainnhe/caj2pdf-qt.git
+$ cd caj2pdf-qt
 $ ./build.py
 ```
 
