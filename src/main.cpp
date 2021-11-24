@@ -2,7 +2,7 @@
 // Name:           CAJ2PDF Qt
 // Description:    CAJ 转 PDF 转换器
 // Author:         Sainnhe Park <sainnhe@gmail.com>
-// Website:        https://github.com/sainnhe/caj2pdf-qt
+// Website:        https://caj2pdf-qt.sainnhe.dev
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
