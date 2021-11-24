@@ -15,9 +15,9 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     version = "0.1.1";
     ui->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowContextHelpButtonHint);    // 启用窗口右上角的 ？按钮
-    qApp->installEventFilter(this);     // 安装事件
-    currentPath = argv0;                // 设置此二进制可执行文件的路径，用来定位 /external 目录
-    convertStatus = statusNotStarted;   // 设置转换状态
+    qApp->installEventFilter(this);                                     // 安装事件
+    currentDir = QCoreApplication::applicationDirPath();                // 设置此二进制可执行文件所在的目录，用来定位 /external 目录
+    convertStatus = statusNotStarted;                                   // 设置转换状态
     // 根据操作系统的不同设置编码方式
     if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
         codecType = "GB2312";

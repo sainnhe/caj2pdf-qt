@@ -64,31 +64,32 @@ void Convert::handleConvert(CAJ2PDF *instance, QString inputFileRaw) {
     QTextCodec *codec = QTextCodec::codecForName(instance->codecType.c_str());
     // inputFile 为转码后的文件名
     std::string inputFile = codec->fromUnicode(inputFileRaw).data();
-    // 当前可执行二进制文件所在的目录
-    QString currentDirectory = QFileInfo(QString::fromStdString(instance->currentPath)).absolutePath();
-    // caj2pdf 和 mutool 的路径
-    QString caj2pdfExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("caj2pdf"));
-    QString mutoolExecutablePath = QDir(QDir(currentDirectory).filePath(tr("external"))).filePath(tr("mutool"));
+    // caj2pdf 和 mutool 的路径（转码前）
+    QString caj2pdfExecutablePathRaw = QDir(QDir(instance->currentDir).filePath(tr("external"))).filePath(tr("caj2pdf"));
+    QString mutoolExecutablePathRaw = QDir(QDir(instance->currentDir).filePath(tr("external"))).filePath(tr("mutool"));
+    // caj2pdf 和 mutool 的路径（转码后）
+    std::string caj2pdfExecutablePath = codec->fromUnicode(caj2pdfExecutablePathRaw).data();
+    std::string mutoolExecutablePath = codec->fromUnicode(mutoolExecutablePathRaw).data();
     // 从 inputFileRaw 这个文件绝对路径获得输入文件的文件名（含扩展名）
     std::string inputFileName = inputFileRaw.toStdString().substr(inputFileRaw.toStdString().find_last_of("/\\") + 1);
     // 输出文件的文件名。将输入文件的扩展名替换成 .pdf
     std::string outputFileName = inputFileName.substr(0, inputFileName.find_last_of(".")) + ".pdf";
-    // 输出文件的绝对路径（未转码）
+    // 输出文件的绝对路径（转码前）
     QString outputFileRaw = QDir(QString::fromStdString(instance->outputDirectory)).filePath(QString::fromStdString(outputFileName));
     // 输出文件的绝对路径（转码后）
     std::string outputFile = codec->fromUnicode(outputFileRaw).data();
     // 在 Windows 下用 WinExec 执行命令，否则会弹出命令行黑框
     if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
         // 执行命令，成功返回 > 31
-        emit requestUpdateUI(WinExec((caj2pdfExecutablePath.toStdString() +
+        emit requestUpdateUI(WinExec((caj2pdfExecutablePath +
                         " convert \"" + inputFile +
                         "\" -o \"" + outputFile +
-                        "\" -m \"" + mutoolExecutablePath.toStdString() + "\"").c_str(), SW_HIDE) <= 31, inputFileRaw.toStdString());
+                        "\" -m \"" + mutoolExecutablePath + "\"").c_str(), SW_HIDE) <= 31, inputFileRaw.toStdString());
     } else {
         // 执行命令，成功返回 0
-        emit requestUpdateUI(system((caj2pdfExecutablePath.toStdString() +
+        emit requestUpdateUI(system((caj2pdfExecutablePath +
                         " convert \"" + inputFile +
                         "\" -o \"" + outputFile +
-                        "\" -m \"" + mutoolExecutablePath.toStdString() + "\"").c_str()), inputFileRaw.toStdString());
+                        "\" -m \"" + mutoolExecutablePath + "\"").c_str()), inputFileRaw.toStdString());
     }
 }
