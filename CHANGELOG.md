@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2021-11-24
+
+### Fix
+
+- 修复中文路径问题。
+
 ## [0.1.1] - 2021-11-20
 
 ### Added
@@ -16,6 +22,7 @@
 
 - 完成初始版本。
 
-[unreleased]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.1...HEAD
+[unreleased]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/sainnhe/caj2pdf-qt/releases/tag/v0.1.0
