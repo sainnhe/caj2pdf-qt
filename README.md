@@ -30,4 +30,4 @@ Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/)
 
 `/caj2pdf` 和 `/mupdf` 目录下的源代码请参考对应的项目；
 
-其余部分的代码以 [GPL3](./LICENSE) 分发。
+其余部分的代码以 [GPL3](https://github.com/sainnhe/caj2pdf-qt/blob/master/LICENSE) 分发。
