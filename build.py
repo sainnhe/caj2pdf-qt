@@ -12,6 +12,7 @@ import os
 import platform
 import subprocess
 from shutil import move, copyfile
+from os.path import join
 
 # update submodules
 workdir = os.getcwd()
@@ -21,9 +22,9 @@ if os.name != "nt":
     subprocess.run(["git", "submodule", "update", "--init", "--recursive", "mupdf"])
 
 # build caj2pdf
-workdir_caj2pdf = os.path.join(workdir, "caj2pdf")
+workdir_caj2pdf = join(workdir, "caj2pdf")
 if os.name != "nt":
-    os.chdir(os.path.join(workdir_caj2pdf, "lib"))
+    os.chdir(join(workdir_caj2pdf, "lib"))
     pkg_config_cflags = subprocess.getoutput("pkg-config --cflags jbig2dec")
     pkg_config_libs = subprocess.getoutput("pkg-config --libs jbig2dec")
     os.system("gcc -Wall -fPIC --shared -o libjbigdec.so jbigdec.cc JBigDecode.cc")
@@ -41,21 +42,21 @@ subprocess.run(["git", "checkout", "--", "."])
 
 # build mupdf
 if os.name != "nt":
-    workdir_mupdf = os.path.join(workdir, "mupdf")
+    workdir_mupdf = join(workdir, "mupdf")
     os.chdir(workdir_mupdf)
     subprocess.run(["make", "--jobs=" + str(os.cpu_count())])
 
 # build project
-build_dir = os.path.join(workdir, "build")
-build_external_dir = os.path.join(build_dir, "external")
-src_dir = os.path.join(workdir, "src")
+build_dir = join(workdir, "build")
+build_external_dir = join(build_dir, "external")
+src_dir = join(workdir, "src")
 os.mkdir(build_dir)
 os.mkdir(build_external_dir)
 if os.name != "nt":
-    move(os.path.join(os.path.join(workdir_caj2pdf, "dist"), "caj2pdf"),
-         os.path.join(build_external_dir, "caj2pdf"))
-    move(os.path.join(os.path.join(os.path.join(workdir_mupdf, "build"), "release"), "mutool"),
-         os.path.join(build_external_dir, "mutool"))
+    move(join(join(workdir_caj2pdf, "dist"), "caj2pdf"),
+         join(build_external_dir, "caj2pdf"))
+    move(join(join(join(workdir_mupdf, "build"), "release"), "mutool"),
+         join(build_external_dir, "mutool"))
 os.chdir(src_dir)
 if platform.system() == "Windows":
     subprocess.run(["windres", "app.rc", "-o", "app.o"])
@@ -64,14 +65,14 @@ else:
     subprocess.run(["cmake", "--build", ".", "--config", "Release", "--", "--jobs=" + str(os.cpu_count())])
 os.chdir(build_dir)
 if platform.system() == "Darwin":
-    move(os.path.join(src_dir, "caj2pdf.app"),
-         os.path.join(build_dir, "caj2pdf.app"))
-    move(os.path.join(build_dir, "external"),
-         os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"))
-    os.mkdir(os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "Resources"))
-    copyfile(os.path.join(os.path.join(workdir, "icons"), "convert.icns"),
-             os.path.join(os.path.join(os.path.join(os.path.join(build_dir, "caj2pdf.app"), "Contents"), "Resources"), "convert.icns"))
+    move(join(src_dir, "caj2pdf.app"),
+         join(build_dir, "caj2pdf.app"))
+    move(join(build_dir, "external"),
+         join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"))
+    os.mkdir(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "Resources"))
+    copyfile(join(join(workdir, "icons"), "convert.icns"),
+             join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "Resources"), "convert.icns"))
     subprocess.run(["open", "."])
 elif platform.system() != "Windows":
-    move(os.path.join(src_dir, "caj2pdf"),
-         os.path.join(build_dir, "caj2pdf"))
+    move(join(src_dir, "caj2pdf"),
+         join(build_dir, "caj2pdf"))
