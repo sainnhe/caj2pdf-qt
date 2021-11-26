@@ -20,6 +20,7 @@ os.chdir(workdir)
 subprocess.run(["git", "submodule", "update", "--init", "--recursive", "caj2pdf"])
 if os.name != "nt":
     subprocess.run(["git", "submodule", "update", "--init", "--recursive", "mupdf"])
+subprocess.run(["git", "clean", "-dfx", "--", "."])
 
 # build caj2pdf
 workdir_caj2pdf = join(workdir, "caj2pdf")
@@ -33,11 +34,25 @@ os.chdir(workdir_caj2pdf)
 subprocess.run(["git", "apply", "../caj2pdf.diff"])
 subprocess.run(["python", "-m", "venv", "venv"])
 if platform.system() == "Windows":
+    copyfile(join(join(join(workdir_caj2pdf, "lib"), "bin"), "libjbigdec-w64.dll"),
+             join(workdir_caj2pdf, "libjbigdec"))
+    copyfile(join(join(join(workdir_caj2pdf, "lib"), "bin"), "libjbig2codec-w64.dll"),
+             join(workdir_caj2pdf, "libjbig2codec"))
     subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
-    subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])
+    subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F",
+                    "--add-data", "libjbigdec;.",
+                    "--add-data", "libjbig2codec;.",
+                    "caj2pdf"])
 else:
+    copyfile(join(join(workdir_caj2pdf, "lib"), "libjbigdec.so"),
+             join(workdir_caj2pdf, "libjbigdec"))
+    copyfile(join(join(workdir_caj2pdf, "lib"), "libjbig2codec.so"),
+             join(workdir_caj2pdf, "libjbig2codec"))
     subprocess.run(["./venv/bin/python", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
-    subprocess.run(["./venv/bin/pyinstaller", "-F", "caj2pdf"])
+    subprocess.run(["./venv/bin/pyinstaller", "-F",
+                    "--add-data", "libjbigdec:.",
+                    "--add-data", "libjbig2codec:.",
+                    "caj2pdf"])
 subprocess.run(["git", "checkout", "--", "."])
 
 # build mupdf
