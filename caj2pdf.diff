@@ -20,10 +20,10 @@ index 80a02de..166d11c 100755
      if args.command == "outlines":
          caj = CAJParser(args.input)
 diff --git a/cajparser.py b/cajparser.py
-index 9a38379..141736f 100644
+index 9a38379..3dcbf9e 100644
 --- a/cajparser.py
 +++ b/cajparser.py
-@@ -106,9 +106,9 @@ class CAJParser(object):
+@@ -106,17 +106,17 @@ class CAJParser(object):
                  f.write(b'    ' * (toc["level"] - 1) + toc["title"]
                          + b'    ' + str(toc["page"]).encode("utf-8") + b'\n')
  
@@ -33,9 +33,11 @@ index 9a38379..141736f 100644
 -            self._convert_caj(dest)
 +            self._convert_caj(dest, mutool)
          elif self.format == "HN":
-             self._convert_hn(dest)
+-            self._convert_hn(dest)
++            self._convert_hn(dest, mutool)
          elif self.format == "C8":
-@@ -116,7 +116,7 @@ class CAJParser(object):
+-            self._convert_hn(dest)
++            self._convert_hn(dest, mutool)
          elif self.format == "PDF":
              self._convert_pdf(dest)
          elif self.format == "KDH":
@@ -62,6 +64,33 @@ index 9a38379..141736f 100644
          except CalledProcessError as e:
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
+@@ -294,7 +294,7 @@ class CAJParser(object):
+         os.remove("pdf.tmp")
+         os.remove("pdf_toc.pdf")
+ 
+-    def _convert_hn(self, dest):
++    def _convert_hn(self, dest, mutool):
+         caj = open(self.filename, "rb")
+         image_list = []
+ 
+@@ -341,7 +341,7 @@ class CAJParser(object):
+                 current_offset = offset_to_image_data + size_of_image_data
+                 if (image_type[image_type_enum] == "JBIG"):
+                     from jbigdec import CImage
+-                    cimage = CImage(image_data)
++                    cimage = CImage(image_data, mutool)
+                     out = cimage.DecodeJbig()
+                     # PBM is only padded to 8 rather than 32.
+                     # If the padding is larger, write padded file.
+@@ -362,7 +362,7 @@ class CAJParser(object):
+                     )
+                 elif (image_type[image_type_enum] == "JBIG2"):
+                     from jbig2dec import CImage
+-                    cimage = CImage(image_data)
++                    cimage = CImage(image_data, mutool)
+                     out = cimage.DecodeJbig2()
+                     # PBM is only padded to 8 rather than 32.
+                     # If the padding is larger, write padded file.
 @@ -555,7 +555,7 @@ class CAJParser(object):
      def _convert_pdf(self, dest):
          copy(self.filename, dest)
@@ -81,16 +110,19 @@ index 9a38379..141736f 100644
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
 diff --git a/jbig2dec.py b/jbig2dec.py
-index f344101..a44fbb4 100755
+index f344101..8a8dff0 100755
 --- a/jbig2dec.py
 +++ b/jbig2dec.py
-@@ -16,15 +16,10 @@ from ctypes import *
+@@ -13,58 +13,25 @@
+ 
+ 
+ from ctypes import *
++import os
  import struct
  
- import platform
-+import os
- 
- arch = platform.architecture()
+-import platform
+-
+-arch = platform.architecture()
 -if (arch[1] == 'WindowsPE'):
 -    if (arch[0] == '64bit'):
 -        libjbig2codec = cdll.LoadLibrary("./lib/bin/libjbig2codec-w64.dll")
@@ -98,18 +130,67 @@ index f344101..a44fbb4 100755
 -        libjbig2codec = cdll.LoadLibrary("./lib/bin/libjbig2codec-w32.dll")
 -else:
 -    libjbig2codec = cdll.LoadLibrary("./libjbig2codec.so")
-+libjbig2codec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbig2codec"))
+-
+-decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
+-
+-decode_jbig2data_c.restype   = c_int
+-decode_jbig2data_c.argtypes  = [c_void_p, c_int, c_void_p, c_int, c_int, c_int, c_int]
+-
+ class CImage:
+-    def __init__(self, buffer):
++    def __init__(self, buffer, mutool):
+         self.buffer = buffer
+         self.buffer_size=len(buffer)
+         (self.width, self.height,
+          self.num_planes, self.bits_per_pixel) = struct.unpack("<IIHH", buffer[4:16])
+         self.bytes_per_line = ((self.width * self.bits_per_pixel + 31) >> 5) << 2
++        self.workdir = os.path.dirname(mutool)
  
- decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
- 
+     def DecodeJbig2(self):
+         out = create_string_buffer(self.height * self.bytes_per_line)
+         width_in_bytes = (self.width * self.bits_per_pixel + 7) >> 3
++        os.chdir(self.workdir)
++        libjbig2codec = cdll.LoadLibrary("libjbig2codec")
++        decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
++        decode_jbig2data_c.restype   = c_int
++        decode_jbig2data_c.argtypes  = [c_void_p, c_int, c_void_p, c_int, c_int, c_int, c_int]
+         decode_jbig2data_c(self.buffer[48:], self.buffer_size-48, out, self.width, self.height, self.bytes_per_line, width_in_bytes)
+         return out
+-
+-if __name__ == '__main__':
+-    import sys, os
+-
+-    if len(sys.argv) < 3:
+-        print("Usage: %s input output" % sys.argv[0])
+-        sys.exit()
+-
+-    f = open(sys.argv[1], "rb")
+-    buffer_size = os.stat(sys.argv[1]).st_size
+-    buffer = f.read()
+-
+-    cimage = CImage(buffer)
+-    out = cimage.DecodeJbig2()
+-
+-    # PBM is only padded to 8 rather than 32.
+-    # If the padding is larger, write padded file.
+-    if (cimage.bytes_per_line > ((cimage.width +7) >> 3)):
+-        cimage.width = bytes_per_line << 3
+-
+-    with open(sys.argv[2], "wb") as fout:
+-        fout.write("P4\n".encode("ascii"))
+-        fout.write(("%d %d\n" % (cimage.width, cimage.height)).encode("ascii"))
+-        fout.write(out)
 diff --git a/jbigdec.py b/jbigdec.py
-index 9d833b7..4460317 100755
+index 9d833b7..f212f78 100755
 --- a/jbigdec.py
 +++ b/jbigdec.py
-@@ -20,13 +20,7 @@ import struct
- import platform
+@@ -17,66 +17,22 @@ from ctypes import *
+ import os
+ import struct
  
- arch = platform.architecture()
+-import platform
+-
+-arch = platform.architecture()
 -if (arch[1] == 'WindowsPE'):
 -    if (arch[0] == '64bit'):
 -        libjbigdec = cdll.LoadLibrary("./lib/bin/libjbigdec-w64.dll")
@@ -117,7 +198,63 @@ index 9d833b7..4460317 100755
 -        libjbigdec = cdll.LoadLibrary("./lib/bin/libjbigdec-w32.dll")
 -else:
 -    libjbigdec = cdll.LoadLibrary("./libjbigdec.so")
-+libjbigdec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbigdec"))
+-
+-#SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
+-#SaveJbigAsBmp.restype = None
+-#SaveJbigAsBmp.argtypes = [c_void_p, c_int, c_char_p]
+-
+-#SaveJbig2AsBmp = libjbigdec.SaveJbig2AsBmp
+-#SaveJbig2AsBmp.restype = None
+-#SaveJbig2AsBmp.argtypes = [c_void_p, c_int, c_char_p]
+-
+-jbigDecode = libjbigdec.jbigDecode
+-jbigDecode.restype = None
+-jbigDecode.argtypes = [c_void_p, c_int, c_int, c_int, c_int, c_void_p]
  
- #SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
- #SaveJbigAsBmp.restype = None
+ class CImage:
+-    def __init__(self, buffer):
++    def __init__(self, buffer, mutool):
+         self.buffer = buffer
+         self.buffer_size=len(buffer)
+         (self.width, self.height,
+          self.num_planes, self.bits_per_pixel) = struct.unpack("<IIHH", buffer[4:16])
+         self.bytes_per_line = ((self.width * self.bits_per_pixel + 31) >> 5) << 2
++        self.workdir = os.path.dirname(mutool)
+ 
+     def DecodeJbig(self):
+         out = create_string_buffer(self.height * self.bytes_per_line)
++        os.chdir(self.workdir)
++        libjbigdec = cdll.LoadLibrary("libjbigdec")
++        jbigDecode = libjbigdec.jbigDecode
++        jbigDecode.restype = None
++        jbigDecode.argtypes = [c_void_p, c_int, c_int, c_int, c_int, c_void_p]
+         jbigDecode(self.buffer[48:], self.buffer_size-48, self.height, self.width, self.bytes_per_line, out)
+         return out
+-
+-if __name__ == '__main__':
+-    import sys, os
+-
+-    if len(sys.argv) < 3:
+-        print("Usage: %s input output" % sys.argv[0])
+-        sys.exit()
+-
+-    f = open(sys.argv[1], "rb")
+-    buffer_size = os.stat(sys.argv[1]).st_size
+-    buffer = f.read()
+-
+-    #SaveJbigAsBmp(buffer, buffer_size, sys.argv[2].encode("ascii"))
+-
+-    cimage = CImage(buffer)
+-    out = cimage.DecodeJbig()
+-
+-    # PBM is only padded to 8 rather than 32.
+-    # If the padding is larger, write padded file.
+-    width = cimage.width
+-    if (cimage.bytes_per_line > ((cimage.width +7) >> 3)):
+-        width = cimage.bytes_per_line << 3
+-
+-    fout = open(sys.argv[2].replace(".bmp", ".pbm"), "wb")
+-    fout.write("P4\n".encode("ascii"))
+-    fout.write(("%d %d\n" % (width, cimage.height)).encode("ascii"))
+-    fout.write(out)
+-    fout.close()
