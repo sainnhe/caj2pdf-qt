@@ -110,7 +110,7 @@ index 9a38379..3dcbf9e 100644
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
 diff --git a/jbig2dec.py b/jbig2dec.py
-index f344101..8a8dff0 100755
+index f344101..c2bab78 100755
 --- a/jbig2dec.py
 +++ b/jbig2dec.py
 @@ -13,58 +13,25 @@
@@ -150,7 +150,7 @@ index f344101..8a8dff0 100755
          out = create_string_buffer(self.height * self.bytes_per_line)
          width_in_bytes = (self.width * self.bits_per_pixel + 7) >> 3
 +        os.chdir(self.workdir)
-+        libjbig2codec = cdll.LoadLibrary("libjbig2codec")
++        libjbig2codec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbig2codec"))
 +        decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
 +        decode_jbig2data_c.restype   = c_int
 +        decode_jbig2data_c.argtypes  = [c_void_p, c_int, c_void_p, c_int, c_int, c_int, c_int]
@@ -181,7 +181,7 @@ index f344101..8a8dff0 100755
 -        fout.write(("%d %d\n" % (cimage.width, cimage.height)).encode("ascii"))
 -        fout.write(out)
 diff --git a/jbigdec.py b/jbigdec.py
-index 9d833b7..f212f78 100755
+index 9d833b7..f888242 100755
 --- a/jbigdec.py
 +++ b/jbigdec.py
 @@ -17,66 +17,22 @@ from ctypes import *
@@ -224,7 +224,7 @@ index 9d833b7..f212f78 100755
      def DecodeJbig(self):
          out = create_string_buffer(self.height * self.bytes_per_line)
 +        os.chdir(self.workdir)
-+        libjbigdec = cdll.LoadLibrary("libjbigdec")
++        libjbigdec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbigdec"))
 +        jbigDecode = libjbigdec.jbigDecode
 +        jbigDecode.restype = None
 +        jbigDecode.argtypes = [c_void_p, c_int, c_int, c_int, c_int, c_void_p]
