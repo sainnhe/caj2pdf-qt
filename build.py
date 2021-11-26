@@ -73,17 +73,17 @@ if platform.system() == "Darwin":
     copyfile(join(join(workdir, "icons"), "convert.icns"),
              join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "Resources"), "convert.icns"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbigdec.so"),
-         join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbigdec"))
+         join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbigdec.so"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbig2codec.so"),
-         join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbig2codec"))
+         join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbig2codec.so"))
     subprocess.run(["open", "."])
 elif platform.system() == "Windows":
     move(join(join(workdir_caj2pdf, "dist"), "caj2pdf.exe"),
          join(build_external_dir, "caj2pdf.exe"))
     copyfile(join(join(join(workdir_caj2pdf, "lib"), "bin"), "libjbigdec-w64.dll"),
-             join(join(build_dir, "external"), "libjbigdec"))
+             join(join(build_dir, "external"), "libjbigdec.dll"))
     copyfile(join(join(join(workdir_caj2pdf, "lib"), "bin"), "libjbig2codec-w64.dll"),
-             join(join(build_dir, "external"), "libjbig2codec"))
+             join(join(build_dir, "external"), "libjbig2codec.dll"))
 else:
     move(join(join(workdir_caj2pdf, "dist"), "caj2pdf"),
          join(build_external_dir, "caj2pdf"))
@@ -92,6 +92,6 @@ else:
     move(join(src_dir, "caj2pdf"),
          join(build_dir, "caj2pdf"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbigdec.so"),
-             join(join(build_dir, "external"), "libjbigdec"))
+             join(join(build_dir, "external"), "libjbigdec.so"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbig2codec.so"),
-             join(join(build_dir, "external"), "libjbig2codec"))
+             join(join(build_dir, "external"), "libjbig2codec.so"))
