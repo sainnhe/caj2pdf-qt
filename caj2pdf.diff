@@ -81,11 +81,14 @@ index 9a38379..141736f 100644
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
 diff --git a/jbig2dec.py b/jbig2dec.py
-index f344101..64a6110 100755
+index f344101..a44fbb4 100755
 --- a/jbig2dec.py
 +++ b/jbig2dec.py
-@@ -18,13 +18,7 @@ import struct
+@@ -16,15 +16,10 @@ from ctypes import *
+ import struct
+ 
  import platform
++import os
  
  arch = platform.architecture()
 -if (arch[1] == 'WindowsPE'):
@@ -95,12 +98,12 @@ index f344101..64a6110 100755
 -        libjbig2codec = cdll.LoadLibrary("./lib/bin/libjbig2codec-w32.dll")
 -else:
 -    libjbig2codec = cdll.LoadLibrary("./libjbig2codec.so")
-+libjbig2codec = cdll.LoadLibrary("libjbig2codec")
++libjbig2codec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbig2codec"))
  
  decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
  
 diff --git a/jbigdec.py b/jbigdec.py
-index 9d833b7..26d1f02 100755
+index 9d833b7..4460317 100755
 --- a/jbigdec.py
 +++ b/jbigdec.py
 @@ -20,13 +20,7 @@ import struct
@@ -114,7 +117,7 @@ index 9d833b7..26d1f02 100755
 -        libjbigdec = cdll.LoadLibrary("./lib/bin/libjbigdec-w32.dll")
 -else:
 -    libjbigdec = cdll.LoadLibrary("./libjbigdec.so")
-+libjbigdec = cdll.LoadLibrary("libjbigdec")
++libjbigdec = cdll.LoadLibrary(os.path.join(os.getcwd(), "libjbigdec"))
  
  #SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
  #SaveJbigAsBmp.restype = None

@@ -9,10 +9,10 @@
 # -----------------------------------------------------------------------------
 
 import os
-import platform
-import subprocess
-from shutil import move, copyfile
 from os.path import join
+import platform
+from shutil import copyfile, move
+import subprocess
 
 # update submodules
 workdir = os.getcwd()
