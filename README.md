@@ -18,6 +18,28 @@ Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/)
 
 其它操作系统和架构的用户需要从源代码编译，参考 [BUILD.md](./BUILD.md)。
 
+## 使用
+
+### Windows
+
+解压缩后点 `caj2pdf.exe` 启动。
+
+注意，Windows Defender 或其它一些杀毒软件可能会拦截转换进程，导致转换失败。
+
+如果你信任编译好的压缩包，可以将这个文件夹添加到排除项：[将排除项添加到 Windows 安全中心](https://support.microsoft.com/zh-cn/windows/%E5%B0%86%E6%8E%92%E9%99%A4%E9%A1%B9%E6%B7%BB%E5%8A%A0%E5%88%B0-windows-%E5%AE%89%E5%85%A8%E4%B8%AD%E5%BF%83-811816c0-4dfd-af4a-47e4-c301afe13b26)
+
+或者你也可以选择自行从源代码编译，参考 [BUILD.md](./BUILD.md)。
+
+### macOS
+
+编译好之后会自动打开包含这个 App 的文件夹，双击启动即可。
+
+你也可以将这个 App 拖拽到“应用程序”文件夹中，以后就可以直接从启动台启动了。
+
+### Linux
+
+编译好后直接运行 `./build/caj2pdf`。
+
 ## 反馈
 
 请移步 [GitHub Issues](https://github.com/sainnhe/caj2pdf-qt/issues)。
