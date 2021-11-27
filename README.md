@@ -26,6 +26,8 @@ Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/)
 
 注意，Windows Defender 或其它一些杀毒软件可能会拦截转换进程，导致转换失败。
 
+这是由于在构建程序的时候使用了 [PyInstaller](https://github.com/pyinstaller/pyinstaller) 将 [caj2pdf](https://github.com/caj2pdf/caj2pdf) 命令行工具打包成了单个可执行文件，而一些杀毒软件会将 PyInstaller 打包的程序当成病毒处理，参考 [pyinstaller/pyinstaller#5492](https://github.com/pyinstaller/pyinstaller/issues/5492)。
+
 如果你信任编译好的压缩包，可以将这个文件夹添加到排除项：[将排除项添加到 Windows 安全中心](https://support.microsoft.com/zh-cn/windows/%E5%B0%86%E6%8E%92%E9%99%A4%E9%A1%B9%E6%B7%BB%E5%8A%A0%E5%88%B0-windows-%E5%AE%89%E5%85%A8%E4%B8%AD%E5%BF%83-811816c0-4dfd-af4a-47e4-c301afe13b26)
 
 或者你也可以选择自行从源代码编译，参考 [BUILD.md](./BUILD.md)。
