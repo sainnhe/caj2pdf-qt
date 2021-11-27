@@ -10,9 +10,9 @@
 
 如果暂时无法科学上网，可以通过 [FastGit](https://doc.fastgit.org/zh-cn/guide.html#release-%E5%92%8C%E6%BA%90%E7%A0%81%E5%AD%98%E6%A1%A3%E7%9A%84%E4%B8%8B%E8%BD%BD) 镜像加速器下载。
 
-例如，v0.1.2 版本的下载链接为 [https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.2/caj2pdf-qt-windows-x86_64-0.1.2.zip](https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.2/caj2pdf-qt-windows-x86_64-0.1.2.zip),
+例如，v0.1.3 版本的下载链接为 [https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.3/caj2pdf-qt-windows-x86_64-0.1.3.zip](https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.3/caj2pdf-qt-windows-x86_64-0.1.3.zip),
 
-那么它的 fastgit 镜像下载链接为 [https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.2/caj2pdf-qt-windows-x86_64-0.1.2.zip](https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.2/caj2pdf-qt-windows-x86_64-0.1.2.zip)。
+那么它的 fastgit 镜像下载链接为 [https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.3/caj2pdf-qt-windows-x86_64-0.1.3.zip](https://download.fastgit.org/sainnhe/caj2pdf-qt/releases/download/v0.1.3/caj2pdf-qt-windows-x86_64-0.1.3.zip)。
 
 Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/) 或我的[个人仓库](https://repo.sainnhe.dev/archlinux/)安装。
 
