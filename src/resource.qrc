@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>css/mainwindow.css</file>
+        <file>resource/buttonTopClose.png</file>
+        <file>resource/buttonTopClose-hover.png</file>
+        <file>resource/buttonTopMax.png</file>
+        <file>resource/buttonTopMini.png</file>
+        <file>resource/btnAboutThis.png</file>
+    </qresource>
+</RCC>
