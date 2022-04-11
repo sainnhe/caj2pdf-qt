@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->setupUi(this);
     version = "0.1.3 beauty";
     initialization();
+    qDebug() << QThread::currentThreadId();
 }
 
 MainWindow::~MainWindow()
@@ -303,6 +304,7 @@ void MainWindow::slot_nextAndFinish()
             ui->progressBar->setValue(0);
             QFuture<void> future = QtConcurrent::run(convert, this);
             curIndex = RESULT_PAGR;
+            ui->textBrowserResult->append(tr("转换结果（转换成功后稍有延迟，请等待...）："));
             emit signal_curIndexChanged(RESULT_PAGR);
         }
         break;
