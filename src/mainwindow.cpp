@@ -90,7 +90,7 @@ void MainWindow::initUI()
 {
     ui->progressBar->setVisible(false);
 
-    ui->labelTopTitle->setText(tr("CAJ转PDF 美化版"));
+    ui->labelTopTitle->setText(tr("CAJ转PDF"));
 
     ui->lineEditUrl->setPlaceholderText(tr("点按右侧按钮选择文件..."));
 
@@ -120,7 +120,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (true)
+    if (curIndex == INPUT_PAGE)
         event->acceptProposedAction();
 }
 
@@ -246,8 +246,9 @@ void MainWindow::slot_openWhatIsThis()
 void MainWindow::slot_selectInputOutput()
 {
     if (1 == curIndex) {
-        inputFiles = QFileDialog::getOpenFileNames(this,
-                     tr("打开 CAJ 文件"), QDir::homePath(), tr("CAJ 文件 (*.caj)"));
+        QList<QString> files = QFileDialog::getOpenFileNames(this,
+                               tr("打开 CAJ 文件"), QDir::homePath(), tr("CAJ 文件 (*.caj)"));
+        inputFiles.append(files);
         QString inputFilesText = tr("");
         for (const QString& str : inputFiles) {
             inputFilesText = inputFilesText + str + "\n";
@@ -292,7 +293,7 @@ void MainWindow::slot_nextAndFinish()
         break;
     }
     case 2: {
-        if (convertStatus == statusNotStarted) {
+        if (convertStatus != statusConverting) {
             if (!QDir(ui->lineEditUrl->text()).exists()) {
                 QMessageBox::warning(this, tr("警告"), tr("请选择一个存在的目录"));
                 return;
@@ -301,14 +302,15 @@ void MainWindow::slot_nextAndFinish()
             ui->progressBar->setRange(0, inputFiles.size());
             ui->progressBar->setValue(0);
             QFuture<void> future = QtConcurrent::run(convert, this);
+            curIndex = RESULT_PAGR;
+            emit signal_curIndexChanged(RESULT_PAGR);
         }
-
-        curIndex = RESULT_PAGR;
-        emit signal_curIndexChanged(RESULT_PAGR);
         break;
     }
     case 3: {
+        inputFiles.clear();
         curIndex = INPUT_PAGE;
+        //QApplication::quit();
         emit signal_curIndexChanged(INPUT_PAGE);
         break;
     }

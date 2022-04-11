@@ -4,11 +4,13 @@
 // Author:         Aymeric <343894011@qq.com>
 // Website:        https://caj2pdf-qt.sainnhe.dev
 // License:        GPL3
+// Note:           要想实现无边框效果，需要使用MSVC编译套件，否则MinGW会报错找不到头文件--Aymeric
 // -----------------------------------------------------------------------------
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "framelessWindow.h"
+//#include <QMainWindow>
 #include <QTextCodec>
 #include <QButtonGroup>
 #include "ui_mainwindow.h"

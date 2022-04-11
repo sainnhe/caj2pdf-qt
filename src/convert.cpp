@@ -31,12 +31,14 @@ int WinExec(bool a, std::string b)
 void MainWindow::convert(MainWindow* instance)
 {
     instance->convertStatus = statusConverting;         // 设置转换状态为正在转换
+    instance->ui->textBrowserResult->append(tr("转换结果："));
     for (const QString& inputFile : instance->inputFiles) {    // 遍历所有输入文件
         Convert* convertor = new Convert();             // 实例化一个 Convert 对象
         // 当 Convert 对象发送 requestUpdateUI 信号时, CAJ2PDF *instance 对象根据发送过来的相应的信息更新界面
         connect(convertor, SIGNAL(requestUpdateUI(int, std::string)), instance, SLOT(slot_showConvertResult(int, std::string)));
         convertor->handleConvert(instance, inputFile);  // 开始转换
     }
+    instance->ui->textBrowserResult->append(tr("转换成功后稍有延迟，请等待..."));
     instance->convertStatus = statusFinished;           // 设置转换状态为转换结束
     instance->ui->btnNext->setDisabled(false);      // 启用第三页的“完成”按钮
 }
@@ -50,12 +52,11 @@ void MainWindow::convert(MainWindow* instance)
 void MainWindow::slot_showConvertResult(int returnCode, std::string inputFile)
 {
     ui->progressBar->setValue(ui->progressBar->value() + 1);    // 更新进度条
-    ui->textBrowserResult->append(tr("转换结果："));
     if (returnCode == 0) {
-        ui->textBrowserResult->append(QString::fromStdString("✅ " + inputFile + "\n"));
+        ui->textBrowserResult->append(QString::fromStdString("✅ " + inputFile));
     }
     else {
-        ui->textBrowserResult->append(QString::fromStdString("❌ " + inputFile + "\n"));
+        ui->textBrowserResult->append(QString::fromStdString("❌ " + inputFile));
     }
 }
 
