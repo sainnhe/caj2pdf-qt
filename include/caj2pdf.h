@@ -48,7 +48,6 @@ public:
     std::string outputDirectory;    // 输出目录，默认为第一个输入文件所在的目录
     QString currentDir;             // 编译出来的可执行文件所在的目录，用来定位 /external/caj2pdf 和 /external/mutool
     ConvertStatus convertStatus;    // 转换状态，用来设置按钮的行为
-    std::string codecType;          // 编码类型，用来解决 windows 下的中文路径问题
 
     // 第三页
     QPushButton *page3NextButton;

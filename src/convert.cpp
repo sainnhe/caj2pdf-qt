@@ -60,8 +60,15 @@ void CAJ2PDF::updatePage3UI(int returnCode, std::string inputFile) {
  * @param inputFileRaw 未转码的输入文件名
  */
 void Convert::handleConvert(CAJ2PDF *instance, QString inputFileRaw) {
+    // 根据操作系统的不同确定编码类型，用来解决 Windows 下的中文路径问题
+    std::string codecType;
+    if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
+        codecType = "GB2312";
+    } else {
+        codecType = "UTF-8";
+    }
     // 根据 codecType 实例化一个转码对象
-    QTextCodec *codec = QTextCodec::codecForName(instance->codecType.c_str());
+    QTextCodec *codec = QTextCodec::codecForName(codecType.c_str());
     // inputFile 为转码后的文件名
     std::string inputFile = codec->fromUnicode(inputFileRaw).data();
     // caj2pdf 和 mutool 的路径（转码前）

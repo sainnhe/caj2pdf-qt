@@ -50,10 +50,9 @@ if os.name != "nt":
 # build project
 build_dir = join(workdir, "build")
 build_external_dir = join(build_dir, "external")
-src_dir = join(workdir, "src")
 os.mkdir(build_dir)
 os.mkdir(build_external_dir)
-os.chdir(src_dir)
+os.chdir(workdir)
 if platform.system() == "Windows":
     subprocess.run(["windres", "app.rc", "-o", "app.o"])
 else:
@@ -65,7 +64,7 @@ if platform.system() == "Darwin":
          join(build_external_dir, "caj2pdf"))
     move(join(join(join(workdir_mupdf, "build"), "release"), "mutool"),
          join(build_external_dir, "mutool"))
-    move(join(src_dir, "caj2pdf.app"),
+    move(join(workdir, "caj2pdf.app"),
          join(build_dir, "caj2pdf.app"))
     move(join(build_dir, "external"),
          join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"))
@@ -89,7 +88,7 @@ else:
          join(build_external_dir, "caj2pdf"))
     move(join(join(join(workdir_mupdf, "build"), "release"), "mutool"),
          join(build_external_dir, "mutool"))
-    move(join(src_dir, "caj2pdf"),
+    move(join(workdir, "caj2pdf"),
          join(build_dir, "caj2pdf"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbigdec.so"),
              join(join(build_dir, "external"), "libjbigdec.so"))

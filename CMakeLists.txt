@@ -23,21 +23,23 @@ ELSE()
     set(RC)
 ENDIF()
 
+file(GLOB Headers include/*)
+file(GLOB Sources src/*)
+
 set(PROJECT_SOURCES
-        main.cpp
-        caj2pdf.cpp
-        caj2pdf.h
-        caj2pdf.ui
-        convert.cpp
-        page1.cpp
-        page2.cpp
-        page3.cpp
+        ${Sources}
+        ${Headers}
         ${RC}
 )
 
 qt_add_executable(caj2pdf WIN32 MACOSX_BUNDLE
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+)
+target_include_directories(
+  caj2pdf
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/include
 )
 
 target_link_libraries(caj2pdf PRIVATE Qt6::Widgets)
