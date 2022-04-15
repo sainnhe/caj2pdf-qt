@@ -14,6 +14,7 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent), ui(new Ui::CAJ2PDF) {
   version = "0.1.3";
   ui->setupUi(this);
+  setAcceptDrops(true);  // 设置支持鼠标推拽
   setWindowFlags(windowFlags() |
                  Qt::WindowContextHelpButtonHint);  // 启用窗口右上角的 ？按钮
   qApp->installEventFilter(this);                   // 安装事件
@@ -204,4 +205,48 @@ void CAJ2PDF::handleWhatsThisEntry() {
              "Park</a><br>许可：GPL3<br>版本：" +
              version + "</p>")
              .c_str()));
+}
+
+/**
+ * @brief 设置 dragEnterEvent
+ *
+ * 当拖拽的数据含有 Urls 且处于第一页的时候接受该事件
+ *
+ * @param event 事件
+ */
+void CAJ2PDF::dragEnterEvent(QDragEnterEvent *event) {
+  if (event->mimeData()->hasUrls() && stack->currentIndex() == 0) {
+    event->accept();
+  }
+}
+
+/**
+ * @brief 设置 dropEvent
+ *
+ * 将 *.caj 文件添加到 inputFiles 中
+ *
+ * @param event 事件
+ */
+void CAJ2PDF::dropEvent(QDropEvent *event) {
+  const QMimeData *mimeData = event->mimeData();
+  QList<QUrl> urlList = mimeData->urls();
+  // 添加新文件
+  for (int i = 0; i < urlList.size() && i < 32; i++) {
+    if (urlList.at(i).toLocalFile().endsWith(tr(".caj"))) {
+      inputFiles += urlList.at(i).toLocalFile();
+    }
+  }
+  // 删除重复文件
+  QVector<QString> inputFilesVec = inputFiles.toVector();
+  std::sort(inputFilesVec.begin(), inputFilesVec.end());
+  inputFilesVec.erase(std::unique(inputFilesVec.begin(), inputFilesVec.end()),
+                      inputFilesVec.end());
+  inputFiles = inputFilesVec.toList();
+  // 更新文本框
+  QString inputFilesText = tr("");
+  for (QString str : inputFiles) {
+    inputFilesText = inputFilesText + str + "\n";
+  }
+  inputTextBrowser->setText(inputFilesText);
+  outputTextBrowser->setText(inputFilesText);
 }

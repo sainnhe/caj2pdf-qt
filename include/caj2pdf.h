@@ -12,18 +12,25 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QDialog>
+#include <QDragEnterEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
 #include <QFuture>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QList>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QSysInfo>
 #include <QTextBrowser>
 #include <QTextCodec>
+#include <QUrl>
 #include <QVBoxLayout>
 #include <QtConcurrent/QtConcurrentRun>
 
@@ -56,7 +63,9 @@ class CAJ2PDF : public QDialog {
 
  protected:
   virtual bool eventFilter(QObject *object,
-                           QEvent *event);  // windows 下的 ？按钮触发的事件
+                           QEvent *event);  // Windows 下的 ？按钮触发的事件
+  void dragEnterEvent(QDragEnterEvent *event);  // Drag 事件
+  void dropEvent(QDropEvent *event);            // Drop 事件
 
  private slots:
   // 总体

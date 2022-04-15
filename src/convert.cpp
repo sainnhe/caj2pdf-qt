@@ -11,7 +11,7 @@
 #include "caj2pdf.h"
 
 #ifdef _WIN32
-// 在 windows 下引入这个头文件，这是为了使用 WinExec() 和 SW_HIDE
+// 在 Windows 下引入这个头文件，这是为了使用 WinExec() 和 SW_HIDE
 #include <windows.h>
 #else
 // 为了让编译通过，瞎写一些定义。
