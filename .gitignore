@@ -2,12 +2,14 @@
 .vscode
 build
 .DS_Store
+CMakeLists.txt.user
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
 compile_commands.json
 caj2pdf*
 *.prj
+.cmake
 
 *~
 *.autosave
