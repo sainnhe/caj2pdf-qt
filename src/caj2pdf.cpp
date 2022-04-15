@@ -17,9 +17,11 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
   setWindowFlags(windowFlags() |
                  Qt::WindowContextHelpButtonHint);  // 启用窗口右上角的 ？按钮
   qApp->installEventFilter(this);                   // 安装事件
-  currentDir = QCoreApplication::applicationDirPath();  // 设置此二进制可执行文件所在的目录，用来定位
-                                                        // /external 目录
+  currentDir = QCoreApplication::
+      applicationDirPath();  // 设置此二进制可执行文件所在的目录，用来定位
+                             // /external 目录
   convertStatus = statusNotStarted;  // 设置转换状态
+  inputFiles = QList<QString>();     // 初始化一个空的 QList<QString>
 
   // 第一页
   page1 = new QWidget(this);

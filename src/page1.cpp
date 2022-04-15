@@ -7,6 +7,7 @@
 // -----------------------------------------------------------------------------
 
 #include <QFileDialog>
+#include <QVector>
 #include <string>
 
 #include "caj2pdf.h"
@@ -20,8 +21,16 @@
  *
  */
 void CAJ2PDF::handlePage1SelectInputButton() {
-  inputFiles = QFileDialog::getOpenFileNames(
+  // 添加新选择的文件
+  inputFiles += QFileDialog::getOpenFileNames(
       this, tr("打开 CAJ 文件"), QDir::homePath(), tr("CAJ 文件 (*.caj)"));
+  // 删除重复文件
+  QVector<QString> inputFilesVec = inputFiles.toVector();
+  std::sort(inputFilesVec.begin(), inputFilesVec.end());
+  inputFilesVec.erase(std::unique(inputFilesVec.begin(), inputFilesVec.end()),
+                      inputFilesVec.end());
+  inputFiles = inputFilesVec.toList();
+  // 更新文本框
   QString inputFilesText = tr("");
   for (QString str : inputFiles) {
     inputFilesText = inputFilesText + str + "\n";
