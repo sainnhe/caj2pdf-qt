@@ -15,8 +15,8 @@
  *
  */
 void CAJ2PDF::handlePage3PrevButton() {
-    stack->setCurrentIndex(1);
-    navigationList->setCurrentRow(1);
+  stack->setCurrentIndex(1);
+  navigationList->setCurrentRow(1);
 }
 
 /**
@@ -27,6 +27,4 @@ void CAJ2PDF::handlePage3PrevButton() {
  * 点击后直接退出应用。
  *
  */
-void CAJ2PDF::handlePage3NextButton() {
-    QApplication::quit();
-}
+void CAJ2PDF::handlePage3NextButton() { QApplication::quit(); }
