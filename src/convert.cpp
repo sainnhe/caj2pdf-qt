@@ -10,16 +10,6 @@
 
 #include "caj2pdf.h"
 
-#ifdef _WIN32
-// 在 Windows 下引入这个头文件，这是为了使用 WinExec() 和 SW_HIDE
-#include <windows.h>
-#else
-// 为了让编译通过，瞎写一些定义。
-// 这些东西实际上用不到
-#define SW_HIDE "none"
-int WinExec(bool a, std::string b) { return 0; }
-#endif
-
 /**
  * @brief 开始转换
  *
@@ -60,59 +50,30 @@ void CAJ2PDF::updatePage3UI(int returnCode, std::string inputFile) {
  * @brief 开始转换
  *
  * @param instance 待转换的实例
- * @param inputFileRaw 未转码的输入文件名
+ * @param inputFilePath 输入文件路径
  */
-void Convert::handleConvert(CAJ2PDF *instance, QString inputFileRaw) {
-  // 根据操作系统的不同确定编码类型，用来解决 Windows 下的中文路径问题
-  std::string codecType;
-  if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
-    codecType = "GB2312";
-  } else {
-    codecType = "UTF-8";
-  }
-  // 根据 codecType 实例化一个转码对象
-  QTextCodec *codec = QTextCodec::codecForName(codecType.c_str());
-  // inputFile 为转码后的文件名
-  std::string inputFile = codec->fromUnicode(inputFileRaw).data();
-  // caj2pdf 和 mutool 的路径（转码前）
-  QString caj2pdfExecutablePathRaw =
+void Convert::handleConvert(CAJ2PDF *instance, QString inputFilePath) {
+  // caj2pdf 和 mutool 的路径
+  QString caj2pdfExecutablePath =
       QDir(QDir(instance->currentDir).filePath(tr("external")))
           .filePath(tr("caj2pdf"));
-  QString mutoolExecutablePathRaw =
+  QString mutoolExecutablePath =
       QDir(QDir(instance->currentDir).filePath(tr("external")))
           .filePath(tr("mutool"));
-  // caj2pdf 和 mutool 的路径（转码后）
-  std::string caj2pdfExecutablePath =
-      codec->fromUnicode(caj2pdfExecutablePathRaw).data();
-  std::string mutoolExecutablePath =
-      codec->fromUnicode(mutoolExecutablePathRaw).data();
-  // 从 inputFileRaw 这个文件绝对路径获得输入文件的文件名（含扩展名）
-  std::string inputFileName = inputFileRaw.toStdString().substr(
-      inputFileRaw.toStdString().find_last_of("/\\") + 1);
+  // 从 inputFilePath 这个文件绝对路径获得输入文件的文件名（含扩展名）
+  std::string inputFileName = inputFilePath.toStdString().substr(
+      inputFilePath.toStdString().find_last_of("/\\") + 1);
   // 输出文件的文件名。将输入文件的扩展名替换成 .pdf
   std::string outputFileName =
       inputFileName.substr(0, inputFileName.find_last_of(".")) + ".pdf";
-  // 输出文件的绝对路径（转码前）
-  QString outputFileRaw =
-      QDir(QString::fromStdString(instance->outputDirectory))
-          .filePath(QString::fromStdString(outputFileName));
-  // 输出文件的绝对路径（转码后）
-  std::string outputFile = codec->fromUnicode(outputFileRaw).data();
-  // 在 Windows 下用 WinExec 执行命令，否则会弹出命令行黑框
-  if (!QString::compare(QSysInfo::kernelType(), tr("winnt"))) {
-    // 执行命令，成功返回 > 31
-    emit requestUpdateUI(WinExec((caj2pdfExecutablePath + " convert \"" +
-                                  inputFile + "\" -o \"" + outputFile +
-                                  "\" -m \"" + mutoolExecutablePath + "\"")
-                                     .c_str(),
-                                 SW_HIDE) <= 31,
-                         inputFileRaw.toStdString());
-  } else {
-    // 执行命令，成功返回 0
-    emit requestUpdateUI(
-        system((caj2pdfExecutablePath + " convert \"" + inputFile + "\" -o \"" +
-                outputFile + "\" -m \"" + mutoolExecutablePath + "\"")
-                   .c_str()),
-        inputFileRaw.toStdString());
-  }
+  // 输出文件的绝对路径
+  QString outputFile = QDir(QString::fromStdString(instance->outputDirectory))
+                           .filePath(QString::fromStdString(outputFileName));
+  // 执行命令，成功返回 0
+  QProcess process;
+  QStringList args = {QString::fromUtf8("convert"), inputFilePath,
+                      QString::fromUtf8("-o"),      outputFile,
+                      QString::fromUtf8("-m"),      mutoolExecutablePath};
+  emit requestUpdateUI(process.execute(caj2pdfExecutablePath, args),
+                       inputFilePath.toStdString());
 }

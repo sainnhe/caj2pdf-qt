@@ -20,16 +20,17 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QListWidget>
 #include <QList>
+#include <QListWidget>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QProcess>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QSysInfo>
+#include <QStringList>
 #include <QTextBrowser>
-#include <QTextCodec>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QtConcurrent/QtConcurrentRun>
@@ -147,7 +148,7 @@ class Convert : public QObject {
 
  public:
   explicit Convert(QObject *parent = 0) : QObject(parent) {}
-  void handleConvert(CAJ2PDF *instance, QString inputFileRaw);
+  void handleConvert(CAJ2PDF *instance, QString inputFilePath);
 
  signals:
   void requestUpdateUI(int returnCode, std::string inputFile);
