@@ -39,6 +39,7 @@
 - qt6
 - python3
 - cmake
+- openssl
 
 ### Steps
 
@@ -56,6 +57,7 @@ $ ./build.py
 - qt6
 - python3
 - cmake
+- openssl
 
 ### Steps
 
