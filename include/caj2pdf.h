@@ -13,8 +13,6 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QDragEnterEvent>
-#include <QDragLeaveEvent>
-#include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QFuture>
 #include <QHBoxLayout>
@@ -28,8 +26,8 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QStackedWidget>
-#include <QSysInfo>
 #include <QStringList>
+#include <QSysInfo>
 #include <QTextBrowser>
 #include <QUrl>
 #include <QVBoxLayout>
@@ -87,12 +85,12 @@ class CAJ2PDF : public QDialog {
   void handlePage3NextButton();
 
  private:
-  std::string version;
   Ui::CAJ2PDF *ui;
   static void convert(CAJ2PDF *instance);
-  void handleWhatsThisEntry();  // windows 下的 ？按钮所调用的函数
+  std::string version;  // 版本信息
 
   // 第一页
+  void uiPage1(void);
   QWidget *page1;
   QLabel *selectInputLabel;
   QPushButton *selectInputButton;
@@ -106,6 +104,7 @@ class CAJ2PDF : public QDialog {
   QVBoxLayout *page1MainLayout;
 
   // 第二页
+  void uiPage2(void);
   QWidget *page2;
   QLabel *selectOutputLabel;
   QLineEdit *selectOutputLineEdit;
@@ -120,6 +119,7 @@ class CAJ2PDF : public QDialog {
   QVBoxLayout *page2MainLayout;
 
   // 第三页
+  void uiPage3(void);
   QWidget *page3;
   QLabel *progressLabel;
   QProgressBar *progressBar;
@@ -132,6 +132,7 @@ class CAJ2PDF : public QDialog {
   QVBoxLayout *page3MainLayout;
 
   // 总体
+  void uiMain(void);
   QListWidget *navigationList;
   QListWidgetItem *item1;
   QListWidgetItem *item2;
