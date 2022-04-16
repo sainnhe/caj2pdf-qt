@@ -52,11 +52,16 @@ build_dir = join(workdir, "build")
 build_external_dir = join(build_dir, "external")
 os.mkdir(build_dir)
 os.mkdir(build_external_dir)
-os.chdir(workdir)
 if platform.system() == "Windows":
+    os.chdir(workdir)
     subprocess.run(["windres", "app.rc", "-o", "app.o"])
-else:
+elif platform.system() == "Darwin":
+    os.chdir(workdir)
     subprocess.run(["cmake", "."])
+    subprocess.run(["cmake", "--build", ".", "--config", "Release", "--", "--jobs=" + str(os.cpu_count())])
+else:
+    os.chdir(build_dir)
+    subprocess.run(["cmake", ".."])
     subprocess.run(["cmake", "--build", ".", "--config", "Release", "--", "--jobs=" + str(os.cpu_count())])
 os.chdir(build_dir)
 if platform.system() == "Darwin":
@@ -88,8 +93,6 @@ else:
          join(build_external_dir, "caj2pdf"))
     move(join(join(join(workdir_mupdf, "build"), "release"), "mutool"),
          join(build_external_dir, "mutool"))
-    move(join(workdir, "caj2pdf"),
-         join(build_dir, "caj2pdf"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbigdec.so"),
              join(join(build_dir, "external"), "libjbigdec.so"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbig2codec.so"),
