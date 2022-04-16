@@ -12,8 +12,10 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QDialog>
+#include <QDir>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QFileDialog>
 #include <QFuture>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -31,7 +33,9 @@
 #include <QTextBrowser>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QVector>
 #include <QtConcurrent/QtConcurrentRun>
+#include <string>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

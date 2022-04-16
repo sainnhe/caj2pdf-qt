@@ -6,10 +6,6 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#include <QFileDialog>
-#include <QVector>
-#include <string>
-
 #include "caj2pdf.h"
 
 /**

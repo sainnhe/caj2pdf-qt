@@ -6,8 +6,6 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#include <QApplication>
-
 #include "caj2pdf.h"
 
 int main(int argc, char *argv[]) {
