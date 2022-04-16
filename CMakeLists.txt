@@ -13,9 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
 
 IF(WIN32)
     set(RC app.o)
@@ -43,7 +42,6 @@ target_include_directories(
 )
 
 target_link_libraries(caj2pdf PRIVATE Qt6::Widgets)
-target_link_libraries(caj2pdf PRIVATE Qt6::Core5Compat)
 
 set_target_properties(caj2pdf PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER dev.sainnhe.caj2pdf-qt
