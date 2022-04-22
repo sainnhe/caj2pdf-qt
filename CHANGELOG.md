@@ -11,7 +11,7 @@
 - 文件多选
 - 文件拖拽
 
-### Fix
+### Fixed
 
 - 用 QProcess::execute 来同步执行命令
 
