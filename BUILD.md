@@ -17,11 +17,11 @@
 > python .\build.py
 ```
 
-配置 Qt Creator 环境, 用 Qt Creator 打开项目文件 `\path\to\caj2pdf-qt\src\CMakeLists.txt`；
+配置 Qt Creator 环境, 用 Qt Creator 打开项目文件 `\path\to\caj2pdf-qt\CMakeLists.txt`；
 
 点击左下角 "caj2pdf Debug"，选择 "Release"；
 
-点击左下角构建按钮开始构建，生成的可执行文件位于 `\path\to\caj2pdf-qt\build-src-*` 目录下；
+点击左下角构建按钮开始构建，生成的可执行文件位于 `\path\to\build-caj2pdf-qt-Desktop*` 目录下；
 
 将这个目录下的 `caj2pdf.exe` 复制到 `\path\to\caj2pdf-qt\build` 目录下；
 
@@ -39,6 +39,7 @@
 - qt6
 - python3
 - cmake
+- jbig2dec
 
 ### Steps
 
@@ -56,6 +57,7 @@ $ ./build.py
 - qt6
 - python3
 - cmake
+- jbig2dec
 
 ### Steps
 
