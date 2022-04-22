@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(caj2pdf VERSION 0.1.3 LANGUAGES CXX)
+project(caj2pdf VERSION 0.1.4 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

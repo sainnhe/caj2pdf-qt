@@ -12,7 +12,7 @@
 
 CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
     : QDialog(parent), ui(new Ui::CAJ2PDF) {
-  version = "0.1.3";
+  version = "0.1.4";
   ui->setupUi(this);
   setAcceptDrops(true);  // 设置支持鼠标推拽
   setWindowFlags(windowFlags() |
