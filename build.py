@@ -45,7 +45,9 @@ subprocess.run(["git", "checkout", "--", "."])
 if os.name != "nt":
     workdir_mupdf = join(workdir, "mupdf")
     os.chdir(workdir_mupdf)
+    subprocess.run(["git", "apply", "../mupdf.diff"])
     subprocess.run(["make", "--jobs=" + str(os.cpu_count())])
+    subprocess.run(["git", "checkout", "--", "."])
 
 # build project
 build_dir = join(workdir, "build")
