@@ -82,6 +82,7 @@ if platform.system() == "Darwin":
          join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbigdec.so"))
     copyfile(join(join(workdir_caj2pdf, "lib"), "libjbig2codec.so"),
          join(join(join(join(join(build_dir, "caj2pdf.app"), "Contents"), "MacOS"), "external"), "libjbig2codec.so"))
+    subprocess.run(["macdeployqt", "caj2pdf.app"])
     subprocess.run(["open", "."])
 elif platform.system() == "Windows":
     move(join(join(workdir_caj2pdf, "dist"), "caj2pdf.exe"),
