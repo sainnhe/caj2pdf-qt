@@ -16,6 +16,8 @@
 
 Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/) 或我的[个人仓库](https://repo.sainnhe.dev/archlinux/)安装。
 
+MacPorts 用户可以从我的[个人仓库](https://repo.sainnhe.dev/macports/)安装。
+
 其它操作系统和架构的用户需要从源代码编译，参考 [BUILD.md](./BUILD.md)。
 
 ## 使用
@@ -34,9 +36,7 @@ Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/)
 
 ### macOS
 
-Apple Silicon 芯片的 Mac 可以直接从 release 界面下载编译好的版本，x86 芯片需要从源代码编译，参考 [BUILD.md](./BUILD.md)。
-
-编译好之后会自动打开包含这个 App 的文件夹，双击启动即可。
+解压后双击启动即可。
 
 你也可以将这个 App 拖拽到“应用程序”文件夹中，以后就可以直接从启动台启动了。
 
