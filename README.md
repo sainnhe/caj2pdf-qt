@@ -36,9 +36,13 @@ MacPorts 用户可以从我的[个人仓库](https://repo.sainnhe.dev/macports/)
 
 ### macOS
 
-解压后双击启动即可。
+解压后拖到“应用程序”文件夹中，这时候如果直接运行会提示已损坏。
 
-你也可以将这个 App 拖拽到“应用程序”文件夹中，以后就可以直接从启动台启动了。
+打开终端，运行以下命令：
+
+```bash
+xattr -cr /Applications/caj2pdf.app
+```
 
 ### Linux
 
