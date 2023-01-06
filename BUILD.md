@@ -5,7 +5,7 @@
 - git
 - qt5 (with mingw 8 && cmake)
 - python3
-- [mupdf](https://mupdf.com/releases/index.html)
+- [mupdf](https://mupdf.com/releases)
 
 ### Steps
 
@@ -15,7 +15,7 @@
 > python3 .\prepare.py
 ```
 
-配置 Qt Creator 环境，用 Qt Creator 打开项目文件 `\path\to\caj2pdf-qt\CMakeLists.txt`，选择 Qt5 + MinGW 8；
+配置 Qt Creator 环境，用 Qt Creator 打开项目文件 `\path\to\caj2pdf-qt\CMakeLists.txt`，选择 "Desktop Qt 5.15.2 MinGW 64-bit"；
 
 点击左下角 "caj2pdf Debug"，选择 "Release"；
 
@@ -23,11 +23,15 @@
 
 将这个目录下的 `caj2pdf.exe` 复制到 `\path\to\caj2pdf-qt\dist` 目录下；
 
-去 [MuPDF 官网](https://mupdf.com/releases/index.html) 下载最新的 mupdf 压缩包，解压后将 `mutool.exe` 复制到 `\path\to\caj2pdf-qt\dist\external` 目录下
+去 [MuPDF 官网](https://mupdf.com/releases) 下载最新的 mupdf 压缩包，解压后将 `mutool.exe` 复制到 `\path\to\caj2pdf-qt\dist\external` 目录下
 
-在开始菜单搜索 "Mingw", 启动 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别），从这个命令行中进入到 `\path\to\caj2pdf-qt\dist` 目录下；
+在开始菜单搜索并启动 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别）。如果搜不到这个应用，可以从开始菜单 -> 所有应用 -> Qt -> Qt 5.15.2 (MinGW 8.1.0 64-bit) 打开
 
-执行 `windeployqt --release caj2pdf.exe`。
+从这个命令行中进入到 `\path\to\caj2pdf-qt\dist` 目录下；
+
+执行 `windeployqt caj2pdf.exe`
+
+输出位于 `dist` 目录下
 
 ## macOS
 
