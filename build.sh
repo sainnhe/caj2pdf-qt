@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+# -----------------------------------------------------------------------------
+# Name:           CAJ2PDF Qt
+# Description:    CAJ 转 PDF 转换器
+# Author:         Sainnhe Park <i@sainnhe.dev>
+# Website:        https://caj2pdf-qt.sainnhe.dev
+# License:        GPL3
+# -----------------------------------------------------------------------------
+
 # 项目根目录
 BASEDIR="$( cd "$( dirname "$0" )" && pwd )"
 cd "${BASEDIR}"
