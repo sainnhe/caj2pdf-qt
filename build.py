@@ -32,7 +32,7 @@ if os.name != "nt":
     os.system("gcc -Wall " + pkg_config_cflags + " -fPIC -shared -o libjbig2codec.so decode_jbig2data_x.cc " + pkg_config_libs)
 os.chdir(workdir_caj2pdf)
 subprocess.run(["git", "apply", "../caj2pdf.diff"])
-subprocess.run(["python", "-m", "venv", "venv"])
+subprocess.run(["/usr/bin/python3", "-m", "venv", "venv"])
 if platform.system() == "Windows":
     subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
     subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])

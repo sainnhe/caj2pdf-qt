@@ -3,7 +3,7 @@
 ### Requirements
 
 - git
-- qt6
+- qt5
 - python3
 - cmake
 - mingw
@@ -25,9 +25,9 @@
 
 将这个目录下的 `caj2pdf.exe` 复制到 `\path\to\caj2pdf-qt\build` 目录下；
 
-在命令行中用 `which mutool` 定位 `mutool.exe` 的位置，将 `mutool.exe` 复制到 `\path\to\caj2pdf-qt\build\external` 目录下；
+在命令行中用 `where mutool` 定位 `mutool.exe` 的位置，将 `mutool.exe` 复制到 `\path\to\caj2pdf-qt\build\external` 目录下；
 
-在开始菜单搜索 "Mingw", 启动 "Qt 6.2.1 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别），从这个命令行中进入到 `\path\to\caj2pdf-qt\build` 目录下；
+在开始菜单搜索 "Mingw", 启动 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别），从这个命令行中进入到 `\path\to\caj2pdf-qt\build` 目录下；
 
 执行 `windeployqt --release caj2pdf.exe`。
 
@@ -36,7 +36,7 @@
 ### Requirements
 
 - git
-- qt6
+- qt5
 - python3
 - cmake
 - jbig2dec
@@ -54,7 +54,7 @@ $ ./build.py
 ### Requirements
 
 - git
-- qt6
+- qt5
 - python3
 - cmake
 - jbig2dec
