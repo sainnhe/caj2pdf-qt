@@ -28,6 +28,7 @@ _init() {
     [ -x "$(command -v git)" ] || echo "Command 'git' not found"
     [ -x "$(command -v python3)" ] || echo "Command 'python3' not found"
     [ -x "$(command -v cmake)" ] || echo "Command 'cmake' not found"
+    [ -x "$(command -v make)" ] || echo "Command 'make' not found"
     [ -x "$(command -v pkg-config)" ] || echo "Command 'pkg-config' not found"
     pkg-config --cflags jbig2dec &> /dev/null || echo "Can't find jbig2dec"
     [ -x "$(command -v qmake)" ] || echo "Qt not installed"
