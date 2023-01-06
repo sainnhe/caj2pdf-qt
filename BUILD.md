@@ -35,10 +35,12 @@
 
 ### Requirements
 
+- C/C++ 编译工具 (GCC 或 Clang)
 - git
 - qt5
 - python3
 - cmake
+- pkg-config
 - jbig2dec
 
 ### Steps
@@ -53,10 +55,12 @@ $ ./build.py
 
 ### Requirements
 
+- C/C++ 编译工具 (GCC 或 Clang)
 - git
 - qt5
 - python3
 - cmake
+- pkg-config
 - jbig2dec
 
 ### Steps
