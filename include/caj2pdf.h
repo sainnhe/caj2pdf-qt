@@ -16,7 +16,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QFileDialog>
-#include <QFuture>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -31,10 +30,10 @@
 #include <QStringList>
 #include <QSysInfo>
 #include <QTextBrowser>
+#include <QThread>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QVector>
-#include <QtConcurrent/QtConcurrentRun>
 #include <string>
 
 QT_BEGIN_NAMESPACE
@@ -63,6 +62,8 @@ class CAJ2PDF : public QDialog {
 
   // 第三页
   QPushButton *page3NextButton;
+  QProgressBar *progressBar;
+  QTextBrowser *statusTextBrowser;
 
  protected:
   virtual bool eventFilter(QObject *object,
@@ -84,13 +85,12 @@ class CAJ2PDF : public QDialog {
   void handlePage2NextButton();
 
   // 第三页
-  void updatePage3UI(int returnCode, std::string inputFile);
   void handlePage3PrevButton();
   void handlePage3NextButton();
 
  private:
   Ui::CAJ2PDF *ui;
-  static void convert(CAJ2PDF *instance);
+  void convert();
   std::string version;  // 版本信息
 
   // 第一页
@@ -126,8 +126,6 @@ class CAJ2PDF : public QDialog {
   void uiPage3(void);
   QWidget *page3;
   QLabel *progressLabel;
-  QProgressBar *progressBar;
-  QTextBrowser *statusTextBrowser;
   QPushButton *page3CancelButton;
   QPushButton *page3PrevButton;
   QHBoxLayout *page3TopLayout;
@@ -145,18 +143,15 @@ class CAJ2PDF : public QDialog {
   QHBoxLayout *mainLayout;
 };
 
-// 定义一个 Convert 类，在 CAJ2PDF 对象中通过异步来转换文件以防止界面卡顿
-// Convert 对象的转换结果通过 signals && slots 来和 CAJ2PDF 对象进行交互，以更新
-// page3 的界面
-class Convert : public QObject {
+// 定义一个 QThread 类，在 CAJ2PDF 对象中通过多线程转换文件以防止界面卡顿
+class Thread : public QThread {
   Q_OBJECT
 
  public:
-  explicit Convert(QObject *parent = 0) : QObject(parent) {}
-  void handleConvert(CAJ2PDF *instance, QString inputFilePath);
-
- signals:
-  void requestUpdateUI(int returnCode, std::string inputFile);
+  explicit Thread(QObject *parent = 0) : QThread(parent){};
+  void run();
+  CAJ2PDF *instance;
+  QString inputFilePath;
 };
 
 #endif  // CAJ2PDF_H

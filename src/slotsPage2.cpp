@@ -37,26 +37,23 @@ void CAJ2PDF::handlePage2PrevButton() {
 /**
  * @brief 第二页的下一步按钮
  *
- * 如果转换正在进行中或者已结束，则只更新 stack 和 navigationList 来切换页面；
- *
- * 否则先检测输出目录是否存在，若不存在则弹出一个警告框并返回；
- *
- * 若存在则更新 outputDirectory 和 progressBar ，然后开始异步转换。
- *
  */
 void CAJ2PDF::handlePage2NextButton() {
-  if (convertStatus == statusNotStarted) {
-    if (!QDir(selectOutputLineEdit->text()).exists()) {
-      QMessageBox::warning(this, tr("警告"), tr("请选择一个存在的目录"));
-      return;
-    }
-    outputDirectory = selectOutputLineEdit->text().toStdString();
-    progressBar->setRange(0, inputFiles.count());
-    progressBar->setValue(0);
-    QFuture<void> future = QtConcurrent::run(convert, this);
+  // 先检测输出目录是否存在，若不存在则弹出一个警告框并返回。
+  if (!QDir(selectOutputLineEdit->text()).exists()) {
+    QMessageBox::warning(this, tr("警告"), tr("请选择一个存在的目录"));
+    return;
   }
+  // 更新 stack 和 navigationList 来切换页面。
   stack->setCurrentIndex(2);
   navigationList->setCurrentRow(2);
   navigationList->item(2)->setFlags(
       navigationList->item(2)->flags().setFlag(Qt::ItemIsEnabled, true));
+  // 若转换尚未开始，则更新 outputDirectory 和 progressBar ，然后开始转换。
+  if (convertStatus == statusNotStarted) {
+    outputDirectory = selectOutputLineEdit->text().toStdString();
+    progressBar->setRange(0, inputFiles.count());
+    progressBar->setValue(0);
+    convert();
+  }
 }
