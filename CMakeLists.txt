@@ -13,8 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 IF(WIN32)
     set(RC app.o)
@@ -31,8 +31,7 @@ set(PROJECT_SOURCES
         ${RC}
 )
 
-qt_add_executable(caj2pdf WIN32 MACOSX_BUNDLE
-    MANUAL_FINALIZATION
+add_executable(caj2pdf WIN32 MACOSX_BUNDLE
     ${PROJECT_SOURCES}
 )
 target_include_directories(
@@ -41,7 +40,7 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/include
 )
 
-target_link_libraries(caj2pdf PRIVATE Qt6::Widgets)
+target_link_libraries(caj2pdf PRIVATE Qt5::Widgets)
 
 set_target_properties(caj2pdf PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER dev.sainnhe.caj2pdf-qt
@@ -49,5 +48,3 @@ set_target_properties(caj2pdf PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE_ICON_FILE convert
 )
-
-qt_finalize_executable(caj2pdf)

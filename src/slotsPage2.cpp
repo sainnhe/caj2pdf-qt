@@ -51,7 +51,7 @@ void CAJ2PDF::handlePage2NextButton() {
       return;
     }
     outputDirectory = selectOutputLineEdit->text().toStdString();
-    progressBar->setRange(0, inputFiles.capacity());
+    progressBar->setRange(0, inputFiles.count());
     progressBar->setValue(0);
     QFuture<void> future = QtConcurrent::run(convert, this);
   }

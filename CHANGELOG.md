@@ -11,6 +11,7 @@
 ### Changed
 
 - 将下载镜像切换到 ghproxy.com
+- 用 Qt5 重构以支持 Windows 7 和 Windows 8
 
 ## [0.1.4] - 2022-04-22
 
