@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- 添加修复 macOS 下提示应用已损坏的文档
+
+### Changed
+
+- 将下载镜像切换到 ghproxy.com
+
 ## [0.1.4] - 2022-04-22
 
 ### Added
