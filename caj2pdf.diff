@@ -20,10 +20,10 @@ index 80a02de..166d11c 100755
      if args.command == "outlines":
          caj = CAJParser(args.input)
 diff --git a/cajparser.py b/cajparser.py
-index 9a38379..3dcbf9e 100644
+index 1a739fc..ca78988 100644
 --- a/cajparser.py
 +++ b/cajparser.py
-@@ -106,17 +106,17 @@ class CAJParser(object):
+@@ -111,17 +111,17 @@ class CAJParser(object):
                  f.write(b'    ' * (toc["level"] - 1) + toc["title"]
                          + b'    ' + str(toc["page"]).encode("utf-8") + b'\n')
  
@@ -46,7 +46,7 @@ index 9a38379..3dcbf9e 100644
  
      def parse(self):
          if self.format == "CAJ":
-@@ -142,7 +142,7 @@ class CAJParser(object):
+@@ -147,7 +147,7 @@ class CAJParser(object):
          elif self.format == "KDH":
              pass
  
@@ -55,7 +55,7 @@ index 9a38379..3dcbf9e 100644
          caj = open(self.filename, "rb")
  
          # Extract original PDF data (and add header)
-@@ -284,7 +284,7 @@ class CAJParser(object):
+@@ -289,7 +289,7 @@ class CAJParser(object):
  
          # Use mutool to repair xref
          try:
@@ -64,7 +64,7 @@ index 9a38379..3dcbf9e 100644
          except CalledProcessError as e:
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
-@@ -294,7 +294,7 @@ class CAJParser(object):
+@@ -304,7 +304,7 @@ class CAJParser(object):
          os.remove("pdf.tmp")
          os.remove("pdf_toc.pdf")
  
@@ -73,7 +73,7 @@ index 9a38379..3dcbf9e 100644
          caj = open(self.filename, "rb")
          image_list = []
  
-@@ -341,7 +341,7 @@ class CAJParser(object):
+@@ -374,7 +374,7 @@ class CAJParser(object):
                  current_offset = offset_to_image_data + size_of_image_data
                  if (image_type[image_type_enum] == "JBIG"):
                      from jbigdec import CImage
@@ -82,7 +82,7 @@ index 9a38379..3dcbf9e 100644
                      out = cimage.DecodeJbig()
                      # PBM is only padded to 8 rather than 32.
                      # If the padding is larger, write padded file.
-@@ -362,7 +362,7 @@ class CAJParser(object):
+@@ -395,7 +395,7 @@ class CAJParser(object):
                      )
                  elif (image_type[image_type_enum] == "JBIG2"):
                      from jbig2dec import CImage
@@ -91,7 +91,7 @@ index 9a38379..3dcbf9e 100644
                      out = cimage.DecodeJbig2()
                      # PBM is only padded to 8 rather than 32.
                      # If the padding is larger, write padded file.
-@@ -555,7 +555,7 @@ class CAJParser(object):
+@@ -602,7 +602,7 @@ class CAJParser(object):
      def _convert_pdf(self, dest):
          copy(self.filename, dest)
  
@@ -100,7 +100,7 @@ index 9a38379..3dcbf9e 100644
          #  Read KDH file.
          fp = open(self.filename, "rb")
          origin = fp.read()
-@@ -585,7 +585,7 @@ class CAJParser(object):
+@@ -632,7 +632,7 @@ class CAJParser(object):
  
          # Use mutool to repair xref
          try:
@@ -110,7 +110,7 @@ index 9a38379..3dcbf9e 100644
              print(e.output.decode("utf-8"))
              raise SystemExit("Command mutool returned non-zero exit status " + str(e.returncode))
 diff --git a/jbig2dec.py b/jbig2dec.py
-index f344101..ec77cb4 100755
+index f213a3a..ec77cb4 100755
 --- a/jbig2dec.py
 +++ b/jbig2dec.py
 @@ -13,58 +13,29 @@
@@ -178,7 +178,7 @@ index f344101..ec77cb4 100755
 -    # PBM is only padded to 8 rather than 32.
 -    # If the padding is larger, write padded file.
 -    if (cimage.bytes_per_line > ((cimage.width +7) >> 3)):
--        cimage.width = bytes_per_line << 3
+-        cimage.width = cimage.bytes_per_line << 3
 -
 -    with open(sys.argv[2], "wb") as fout:
 -        fout.write("P4\n".encode("ascii"))
