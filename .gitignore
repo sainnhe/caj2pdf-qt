@@ -1,6 +1,7 @@
 .cache
 .vscode
 build
+dist
 .DS_Store
 CMakeLists.txt.user
 CMakeFiles
