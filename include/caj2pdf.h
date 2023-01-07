@@ -23,6 +23,7 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QMutex>
 #include <QProcess>
 #include <QProgressBar>
 #include <QPushButton>
@@ -134,6 +135,7 @@ class CAJ2PDF : public QDialog {
   QVBoxLayout *page3MainLayout;
   QProgressBar *progressBar;
   QTextBrowser *statusTextBrowser;
+  QMutex *mutex;
 
   // 总体
   void uiMain(void);
