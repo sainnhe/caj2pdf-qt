@@ -9,6 +9,10 @@
 
 ### Steps
 
+在开始菜单搜索并启动 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别）。如果搜不到这个应用，可以从开始菜单 -> 所有应用 -> Qt -> Qt 5.15.2 (MinGW 8.1.0 64-bit) 打开
+
+执行以下命令：
+
 ```shell
 > git clone --depth 1 https://github.com/sainnhe/caj2pdf-qt.git
 > cd caj2pdf-qt
@@ -25,9 +29,7 @@
 
 去 [MuPDF 官网](https://mupdf.com/releases) 下载最新的 mupdf 压缩包，解压后将 `mutool.exe` 复制到 `\path\to\caj2pdf-qt\dist\external` 目录下
 
-在开始菜单搜索并启动 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行（版本号可能有差别）。如果搜不到这个应用，可以从开始菜单 -> 所有应用 -> Qt -> Qt 5.15.2 (MinGW 8.1.0 64-bit) 打开
-
-从这个命令行中进入到 `\path\to\caj2pdf-qt\dist` 目录下；
+在 "Qt 5.15.2 (MinGW 8.1.0 64-bit)" 命令行中进入到 `\path\to\caj2pdf-qt\dist` 目录下；
 
 执行 `windeployqt caj2pdf.exe`
 
