@@ -17,16 +17,14 @@ void CAJ2PDF::convert() {
   this->convertStatus = statusConverting;  // 设置转换状态为正在转换
   for (QString inputFile : this->inputFiles) {  // 遍历所有输入文件
     // 创建一个转换线程
-    ConvertionThread *convertionThread =
-        new ConvertionThread(this, this, inputFile);
+    ConvertionThread *convertionThread = new ConvertionThread(this, inputFile);
     // 将该线程加入队列
     convertionThreads.push(convertionThread);
     // 开始运行转换线程
     convertionThread->start();
   }
   // 创建等待线程
-  WaitingThread *waitingThread =
-      new WaitingThread(this, convertionThreads, this);
+  WaitingThread *waitingThread = new WaitingThread(this, convertionThreads);
   // 开始等待
   waitingThread->start();
 }
@@ -35,13 +33,11 @@ void CAJ2PDF::convert() {
  * @brief 转换线程的构造函数
  *
  * @param parent 线程的父对象
- * @param instance 要更新的 GUI 界面所对应的 CAJ2PDF 实例
  * @param inputFilePath 输入文件路径
  */
-ConvertionThread::ConvertionThread(QObject *parent, CAJ2PDF *instance,
-                                   QString inputFilePath)
+ConvertionThread::ConvertionThread(CAJ2PDF *parent, QString inputFilePath)
     : QThread(parent) {
-  this->instance = instance;
+  this->instance = parent;
   this->inputFilePath = inputFilePath;
 }
 
@@ -100,14 +96,12 @@ void CAJ2PDF::updatePage3UI(bool status, QString inputFilePath) {
  *
  * @param parent 线程的父对象
  * @param convertionThreads 包含了转换线程的队列
- * @param instance 要更新的 GUI 界面所对应的 CAJ2PDF 实例
  */
-WaitingThread::WaitingThread(QObject *parent,
-                             std::queue<ConvertionThread *> convertionThreads,
-                             CAJ2PDF *instance)
+WaitingThread::WaitingThread(CAJ2PDF *parent,
+                             std::queue<ConvertionThread *> convertionThreads)
     : QThread(parent) {
   this->convertionThreads = convertionThreads;
-  this->instance = instance;
+  this->instance = parent;
 }
 
 /**

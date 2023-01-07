@@ -150,8 +150,7 @@ class ConvertionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit ConvertionThread(QObject *parent = nullptr,
-                            CAJ2PDF *instance = nullptr,
+  explicit ConvertionThread(CAJ2PDF *parent = nullptr,
                             QString inputFilePath = "");
   void run();
 
@@ -165,9 +164,8 @@ class WaitingThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit WaitingThread(QObject *parent = nullptr,
-                         std::queue<ConvertionThread *> convertionThreads = {},
-                         CAJ2PDF *instance = nullptr);
+  explicit WaitingThread(CAJ2PDF *parent = nullptr,
+                         std::queue<ConvertionThread *> convertionThreads = {});
   void run();
 
  private:
