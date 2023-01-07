@@ -46,7 +46,7 @@ _cli() {
     cc -Wall -fPIC --shared -o libjbigdec.so jbigdec.cc JBigDecode.cc
     cc -Wall `pkg-config --cflags jbig2dec` -fPIC -shared -o libjbig2codec.so decode_jbig2data_x.cc `pkg-config --libs jbig2dec`
     cd "${BASEDIR}/caj2pdf"
-    git apply ../caj2pdf.diff
+    git apply ../patches/caj2pdf.diff
     python3 -m venv venv
     "${BASEDIR}/caj2pdf/venv/bin/python" -m pip install --index-url=https://mirrors.aliyun.com/pypi/simple pypdf2 pyinstaller
     "${BASEDIR}/caj2pdf/venv/bin/pyinstaller" -F caj2pdf
@@ -58,7 +58,7 @@ _mupdf() {
     cd "${BASEDIR}/mupdf"
     git clean -dfx -- .
     git checkout -- .
-    git apply ../mupdf.diff
+    git apply ../patches/mupdf.diff
     if [ -x "$(command -v nproc)" ]; then
         make --jobs=$(nproc) release
     elif [ -x "$(command -v gnproc)" ]; then
