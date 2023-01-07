@@ -34,6 +34,7 @@
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QVector>
+#include <queue>
 #include <string>
 
 QT_BEGIN_NAMESPACE
@@ -62,8 +63,7 @@ class CAJ2PDF : public QDialog {
 
   // 第三页
   QPushButton *page3NextButton;
-  QProgressBar *progressBar;
-  QTextBrowser *statusTextBrowser;
+  void updatePage3UI(bool status, QString inputFilePath);
 
  protected:
   virtual bool eventFilter(QObject *object,
@@ -132,6 +132,8 @@ class CAJ2PDF : public QDialog {
   QHBoxLayout *page3MiddleLayout;
   QHBoxLayout *page3BottomLayout;
   QVBoxLayout *page3MainLayout;
+  QProgressBar *progressBar;
+  QTextBrowser *statusTextBrowser;
 
   // 总体
   void uiMain(void);
@@ -143,15 +145,34 @@ class CAJ2PDF : public QDialog {
   QHBoxLayout *mainLayout;
 };
 
-// 定义一个 QThread 类，在 CAJ2PDF 对象中通过多线程转换文件以防止界面卡顿
-class Thread : public QThread {
+// 用于执行转换的线程
+class ConvertionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit Thread(QObject *parent = 0) : QThread(parent){};
+  explicit ConvertionThread(QObject *parent = nullptr,
+                            CAJ2PDF *instance = nullptr,
+                            QString inputFilePath = "");
   void run();
+
+ private:
   CAJ2PDF *instance;
   QString inputFilePath;
+};
+
+// 用于等待转换完成的线程
+class WaitingThread : public QThread {
+  Q_OBJECT
+
+ public:
+  explicit WaitingThread(QObject *parent = nullptr,
+                         std::queue<ConvertionThread *> convertionThreads = {},
+                         CAJ2PDF *instance = nullptr);
+  void run();
+
+ private:
+  std::queue<ConvertionThread *> convertionThreads;
+  CAJ2PDF *instance;
 };
 
 #endif  // CAJ2PDF_H

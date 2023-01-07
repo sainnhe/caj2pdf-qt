@@ -13,18 +13,36 @@
  *
  */
 void CAJ2PDF::convert() {
+  std::queue<ConvertionThread *> convertionThreads;
   this->convertStatus = statusConverting;  // 设置转换状态为正在转换
   for (QString inputFile : this->inputFiles) {  // 遍历所有输入文件
-    // 创建一个新线程
-    Thread *thread = new Thread(this);
-    // 初始化这个线程的参数
-    thread->instance = this;
-    thread->inputFilePath = inputFile;
-    // 开始运行
-    thread->start();
+    // 创建一个转换线程
+    ConvertionThread *convertionThread =
+        new ConvertionThread(this, this, inputFile);
+    // 将该线程加入队列
+    convertionThreads.push(convertionThread);
+    // 开始运行转换线程
+    convertionThread->start();
   }
-  this->convertStatus = statusFinished;  // 设置转换状态为转换结束
-  this->page3NextButton->setDisabled(false);  // 启用第三页的“完成”按钮
+  // 创建等待线程
+  WaitingThread *waitingThread =
+      new WaitingThread(this, convertionThreads, this);
+  // 开始等待
+  waitingThread->start();
+}
+
+/**
+ * @brief 转换线程的构造函数
+ *
+ * @param parent 线程的父对象
+ * @param instance 要更新的 GUI 界面所对应的 CAJ2PDF 实例
+ * @param inputFilePath 输入文件路径
+ */
+ConvertionThread::ConvertionThread(QObject *parent, CAJ2PDF *instance,
+                                   QString inputFilePath)
+    : QThread(parent) {
+  this->instance = instance;
+  this->inputFilePath = inputFilePath;
 }
 
 /**
@@ -33,7 +51,7 @@ void CAJ2PDF::convert() {
  * 该方法将会在调用 start() 后执行
  *
  */
-void Thread::run() {
+void ConvertionThread::run() {
   // caj2pdf 和 mutool 的路径
   QString caj2pdfExecutablePath =
       QDir(QDir(instance->currentDir).filePath(tr("external")))
@@ -56,13 +74,55 @@ void Thread::run() {
                       QString::fromUtf8("-o"),      outputFile,
                       QString::fromUtf8("-m"),      mutoolExecutablePath};
   // 开始执行命令，并根据结果更新第三页的页面
-  if (process.execute(caj2pdfExecutablePath, args) == 0) {
-    instance->statusTextBrowser->insertPlainText(
+  instance->updatePage3UI(process.execute(caj2pdfExecutablePath, args) == 0,
+                          inputFilePath);
+}
+
+/**
+ * @brief 更新第三页的转换状态框和进度条
+ *
+ * @param status 转换是否成功
+ * @param inputFilePath 转换文件的路径
+ */
+void CAJ2PDF::updatePage3UI(bool status, QString inputFilePath) {
+  progressBar->setValue(progressBar->value() + 1);
+  if (status) {
+    statusTextBrowser->insertPlainText(
         QString::fromStdString("✅ " + inputFilePath.toStdString() + "\n"));
   } else {
-    instance->statusTextBrowser->insertPlainText(
+    statusTextBrowser->insertPlainText(
         QString::fromStdString("❌ " + inputFilePath.toStdString() + "\n"));
   }
-  // 更新进度条
-  instance->progressBar->setValue(instance->progressBar->value() + 1);
+}
+
+/**
+ * @brief 等待线程的构造函数
+ *
+ * @param parent 线程的父对象
+ * @param convertionThreads 包含了转换线程的队列
+ * @param instance 要更新的 GUI 界面所对应的 CAJ2PDF 实例
+ */
+WaitingThread::WaitingThread(QObject *parent,
+                             std::queue<ConvertionThread *> convertionThreads,
+                             CAJ2PDF *instance)
+    : QThread(parent) {
+  this->convertionThreads = convertionThreads;
+  this->instance = instance;
+}
+
+/**
+ * @brief 开始等待
+ *
+ * 该方法将会在调用 start() 后执行
+ *
+ */
+void WaitingThread::run() {
+  // 等待队列中所有线程执行完毕
+  while (!convertionThreads.empty()) {
+    convertionThreads.front()->wait();
+    convertionThreads.pop();
+  }
+  // 更新界面
+  instance->convertStatus = statusFinished;  // 设置转换状态为转换结束
+  instance->page3NextButton->setDisabled(false);  // 启用第三页的“完成”按钮
 }
