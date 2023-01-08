@@ -49,7 +49,7 @@ void ExecutionThread::run() {
     convertionThreads.front()->wait();
     convertionThreads.pop();
   }
-  // 发送进程结束信号
+  // 发送线程结束信号
   emit finished();
 }
 
