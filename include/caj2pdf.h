@@ -57,14 +57,6 @@ class CAJ2PDF : public QDialog {
  public:
   CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
   ~CAJ2PDF();
-  std::string outputDirectory;  // 输出目录，默认为第一个输入文件所在的目录
-  QString currentDir;  // 编译出来的可执行文件所在的目录，用来定位
-                       // /external/caj2pdf 和 /external/mutool
-  ConvertStatus convertStatus;  // 转换状态，用来设置按钮的行为
-
-  // 第三页
-  QPushButton *page3NextButton;
-  void updatePage3UI(bool status, QString inputFilePath);
 
  protected:
   virtual bool eventFilter(QObject *object,
@@ -88,11 +80,15 @@ class CAJ2PDF : public QDialog {
   // 第三页
   void handlePage3PrevButton();
   void handlePage3NextButton();
+  void updatePage3Progress(bool status, QString inputFilePath);
+  void updatePage3FinishedStatus();
 
  private:
   Ui::CAJ2PDF *ui;
   void convert();
-  std::string version;  // 版本信息
+  std::string version;          // 版本信息
+  ConvertStatus convertStatus;  // 转换状态，用来设置按钮的行为
+  std::string outputDirectory;  // 输出目录，默认为第一个输入文件所在的目录
 
   // 第一页
   void uiPage1(void);
@@ -129,6 +125,7 @@ class CAJ2PDF : public QDialog {
   QLabel *progressLabel;
   QPushButton *page3CancelButton;
   QPushButton *page3PrevButton;
+  QPushButton *page3NextButton;
   QHBoxLayout *page3TopLayout;
   QHBoxLayout *page3MiddleLayout;
   QHBoxLayout *page3BottomLayout;
@@ -153,12 +150,20 @@ class ConvertionThread : public QThread {
 
  public:
   explicit ConvertionThread(CAJ2PDF *parent = nullptr,
-                            QString inputFilePath = "");
+                            QString inputFilePath = "",
+                            std::string outputDirectory = "");
   void run();
+
+ signals:
+  // 转换完成信号
+  // status 表示转换成功与否；
+  // inputFilePath 表示待转换文件的路径
+  void convertionFinished(bool status, QString inputFilePath);
 
  private:
   CAJ2PDF *instance;
   QString inputFilePath;
+  std::string outputDirectory;
 };
 
 // 用于等待转换完成的线程
@@ -169,6 +174,10 @@ class WaitingThread : public QThread {
   explicit WaitingThread(CAJ2PDF *parent = nullptr,
                          std::queue<ConvertionThread *> convertionThreads = {});
   void run();
+
+ signals:
+  // 所有进程结束信号
+  void threadsFinished();
 
  private:
   std::queue<ConvertionThread *> convertionThreads;
