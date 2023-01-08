@@ -7,6 +7,7 @@
 # -----------------------------------------------------------------------------
 
 import os
+import sys
 from os.path import join
 from shutil import copyfile, move
 import subprocess
@@ -23,7 +24,7 @@ os.chdir(workdir_cli)
 subprocess.run(["git", "clean", "-dfx", "--", "."])
 subprocess.run(["git", "checkout", "--", "."])
 subprocess.run(["git", "apply", "../patches/caj2pdf.diff"])
-subprocess.run(["python3", "-m", "venv", "venv"])
+subprocess.run([sys.executable, "-m", "venv", "venv"])
 subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "--index-url=https://mirrors.aliyun.com/pypi/simple", "pypdf2", "pyinstaller"])
 subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])
 subprocess.run(["git", "checkout", "--", "."])
