@@ -6,8 +6,8 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#ifndef CAJ2PDF_H
-#define CAJ2PDF_H
+#ifndef CAJ2PDF_HPP
+#define CAJ2PDF_HPP
 
 #include <QApplication>
 #include <QComboBox>
@@ -186,4 +186,4 @@ class ExecutionThread : public QThread {
   std::string outputDirectory;
 };
 
-#endif  // CAJ2PDF_H
+#endif  // CAJ2PDF_HPP

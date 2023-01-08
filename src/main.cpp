@@ -6,7 +6,7 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#include "caj2pdf.h"
+#include "caj2pdf.hpp"
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);

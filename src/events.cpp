@@ -6,7 +6,7 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#include "caj2pdf.h"
+#include "caj2pdf.hpp"
 
 /**
  * @brief 若筛选出 EnterWhatsThisMode 事件，则执行 handleWhatsThisEntry()

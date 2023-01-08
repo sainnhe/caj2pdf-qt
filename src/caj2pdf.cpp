@@ -6,7 +6,7 @@
 // License:        GPL3
 // -----------------------------------------------------------------------------
 
-#include "caj2pdf.h"
+#include "caj2pdf.hpp"
 
 #include "./ui_caj2pdf.h"
 
