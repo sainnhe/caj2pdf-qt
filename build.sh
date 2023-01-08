@@ -48,7 +48,8 @@ _cli() {
     cd "${BASEDIR}/caj2pdf"
     git apply ../patches/caj2pdf.diff
     python3 -m venv venv
-    "${BASEDIR}/caj2pdf/venv/bin/python" -m pip install --index-url=https://mirrors.aliyun.com/pypi/simple pypdf2 pyinstaller
+    "${BASEDIR}/caj2pdf/venv/bin/python" -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
+    "${BASEDIR}/caj2pdf/venv/bin/python" -m pip install pyinstaller -i https://mirrors.aliyun.com/pypi/simple
     "${BASEDIR}/caj2pdf/venv/bin/pyinstaller" -F caj2pdf
     git checkout -- .
 }
