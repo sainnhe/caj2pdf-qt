@@ -12,15 +12,14 @@
  * @brief 转换线程的构造函数
  *
  * @param parent 线程的父对象
- * @param instance CAJ2PDF 实例
  * @param inputFilePath 输入文件路径
  * @param outputDirectory 输出文件目录
  */
-ConversionThread::ConversionThread(QObject *parent, CAJ2PDF *instance,
+ConversionThread::ConversionThread(CAJ2PDF *parent,
                                    QString inputFilePath,
                                    std::string outputDirectory)
     : QThread(parent) {
-  this->instance = instance;
+  this->instance = parent;
   this->inputFilePath = inputFilePath;
   this->outputDirectory = outputDirectory;
 }

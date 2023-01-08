@@ -43,7 +43,7 @@ void ExecutionThread::run() {
     }
     // 创建一个转换线程
     ConversionThread *conversionThread =
-        new ConversionThread(this, instance, inputFile, outputDirectory);
+        new ConversionThread(instance, inputFile, outputDirectory);
     // 将该线程加入队列
     conversionThreads.push(conversionThread);
     // 连接信号槽

@@ -148,8 +148,7 @@ class ConversionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit ConversionThread(QObject *parent = nullptr,
-                            CAJ2PDF *instance = nullptr,
+  explicit ConversionThread(CAJ2PDF *parent = nullptr,
                             QString inputFilePath = "",
                             std::string outputDirectory = "");
   void run();
