@@ -57,6 +57,7 @@ class CAJ2PDF : public QDialog {
  public:
   CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
   ~CAJ2PDF();
+  ConvertStatus convertStatus;  // 转换状态，用来设置按钮的行为
 
  protected:
   virtual bool eventFilter(QObject *object,
@@ -85,9 +86,7 @@ class CAJ2PDF : public QDialog {
 
  private:
   Ui::CAJ2PDF *ui;
-  void convert();
   std::string version;          // 版本信息
-  ConvertStatus convertStatus;  // 转换状态，用来设置按钮的行为
   std::string outputDirectory;  // 输出目录，默认为第一个输入文件所在的目录
 
   // 第一页
@@ -149,7 +148,8 @@ class ConvertionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit ConvertionThread(CAJ2PDF *parent = nullptr,
+  explicit ConvertionThread(QObject *parent = nullptr,
+                            CAJ2PDF *instance = nullptr,
                             QString inputFilePath = "",
                             std::string outputDirectory = "");
   void run();
@@ -166,22 +166,24 @@ class ConvertionThread : public QThread {
   std::string outputDirectory;
 };
 
-// 用于等待转换完成的线程
-class WaitingThread : public QThread {
+// 用于协调转换线程的线程
+class ExecutionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit WaitingThread(CAJ2PDF *parent = nullptr,
-                         std::queue<ConvertionThread *> convertionThreads = {});
+  explicit ExecutionThread(CAJ2PDF *parent = nullptr,
+                           QList<QString> inputFiles = {},
+                           std::string outputDirectory = "");
   void run();
 
  signals:
-  // 所有进程结束信号
-  void threadsFinished();
+  // 所有转换线程结束的信号
+  void finished();
 
  private:
-  std::queue<ConvertionThread *> convertionThreads;
   CAJ2PDF *instance;
+  QList<QString> inputFiles;
+  std::string outputDirectory;
 };
 
 #endif  // CAJ2PDF_H

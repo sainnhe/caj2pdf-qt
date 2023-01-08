@@ -54,6 +54,13 @@ void CAJ2PDF::handlePage2NextButton() {
     outputDirectory = selectOutputLineEdit->text().toStdString();
     progressBar->setRange(0, inputFiles.count());
     progressBar->setValue(0);
-    convert();
+    // 创建执行线程
+    ExecutionThread *executionThread =
+        new ExecutionThread(this, inputFiles, outputDirectory);
+    // 连接信号槽
+    connect(executionThread, SIGNAL(finished()), this,
+            SLOT(updatePage3FinishedStatus()));
+    // 开始执行
+    executionThread->start();
   }
 }
