@@ -22,20 +22,25 @@ ELSE()
     set(RC)
 ENDIF()
 
-file(GLOB Headers include/*)
-file(GLOB Sources src/*)
+file(GLOB Headers
+     include/*
+     include/**/*
+)
+file(GLOB Sources
+     src/*
+     src/**/*
+)
 
 set(PROJECT_SOURCES
-        ${Sources}
-        ${Headers}
-        ${RC}
+    ${Sources}
+    ${Headers}
+    ${RC}
 )
 
 add_executable(caj2pdf WIN32 MACOSX_BUNDLE
-    ${PROJECT_SOURCES}
+               ${PROJECT_SOURCES}
 )
-target_include_directories(
-  caj2pdf
+target_include_directories(caj2pdf
   PRIVATE
   ${CMAKE_SOURCE_DIR}/include
 )
