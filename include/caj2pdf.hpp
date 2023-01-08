@@ -86,7 +86,7 @@ class CAJ2PDF : public QDialog {
 
  private:
   Ui::CAJ2PDF *ui;
-  std::string version;          // 版本信息
+  std::string version;  // 版本信息
   std::string outputDirectory;  // 输出目录，默认为第一个输入文件所在的目录
 
   // 第一页
@@ -131,7 +131,7 @@ class CAJ2PDF : public QDialog {
   QVBoxLayout *page3MainLayout;
   QProgressBar *progressBar;
   QTextBrowser *statusTextBrowser;
-  QMutex *mutex;
+  QMutex *page3Mutex;  // 用于控制第三页共享资源的互斥锁
 
   // 总体
   void uiMain(void);
@@ -148,7 +148,7 @@ class ConversionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit ConversionThread(CAJ2PDF *parent = nullptr,
+  explicit ConversionThread(QObject *parent = nullptr,
                             QString inputFilePath = "",
                             std::string outputDirectory = "");
   void run();
@@ -160,7 +160,6 @@ class ConversionThread : public QThread {
   void conversionFinished(bool status, QString inputFilePath);
 
  private:
-  CAJ2PDF *instance;
   QString inputFilePath;
   std::string outputDirectory;
 };

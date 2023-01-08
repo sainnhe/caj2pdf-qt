@@ -43,5 +43,5 @@ void CAJ2PDF::uiPage3(void) {
           SLOT(handleCancelButton()));
   connect(page3NextButton, SIGNAL(clicked()), this,
           SLOT(handlePage3NextButton()));
-  mutex = new QMutex();
+  page3Mutex = new QMutex();
 }

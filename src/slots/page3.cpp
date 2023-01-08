@@ -36,7 +36,7 @@ void CAJ2PDF::handlePage3NextButton() { QApplication::quit(); }
  * @param inputFilePath 转换文件的路径
  */
 void CAJ2PDF::updatePage3Progress(bool status, QString inputFilePath) {
-  mutex->lock();
+  page3Mutex->lock();
   progressBar->setValue(progressBar->value() + 1);
   if (status) {
     statusTextBrowser->insertPlainText(
@@ -45,7 +45,7 @@ void CAJ2PDF::updatePage3Progress(bool status, QString inputFilePath) {
     statusTextBrowser->insertPlainText(
         QString::fromStdString("❌ " + inputFilePath.toStdString() + "\n"));
   }
-  mutex->unlock();
+  page3Mutex->unlock();
 }
 
 /**

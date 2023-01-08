@@ -15,11 +15,10 @@
  * @param inputFilePath 输入文件路径
  * @param outputDirectory 输出文件目录
  */
-ConversionThread::ConversionThread(CAJ2PDF *parent,
+ConversionThread::ConversionThread(QObject *parent,
                                    QString inputFilePath,
                                    std::string outputDirectory)
     : QThread(parent) {
-  this->instance = parent;
   this->inputFilePath = inputFilePath;
   this->outputDirectory = outputDirectory;
 }
