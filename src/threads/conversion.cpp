@@ -16,7 +16,7 @@
  * @param inputFilePath 输入文件路径
  * @param outputDirectory 输出文件目录
  */
-ConvertionThread::ConvertionThread(QObject *parent, CAJ2PDF *instance,
+ConversionThread::ConversionThread(QObject *parent, CAJ2PDF *instance,
                                    QString inputFilePath,
                                    std::string outputDirectory)
     : QThread(parent) {
@@ -31,7 +31,7 @@ ConvertionThread::ConvertionThread(QObject *parent, CAJ2PDF *instance,
  * 该方法将会在调用 start() 后执行
  *
  */
-void ConvertionThread::run() {
+void ConversionThread::run() {
   // 设置此二进制可执行文件所在的目录，用来定位 /external 目录
   QString currentDir = QCoreApplication::applicationDirPath();
   // caj2pdf 和 mutool 的路径
@@ -54,6 +54,6 @@ void ConvertionThread::run() {
                       QString::fromUtf8("-o"),      outputFile,
                       QString::fromUtf8("-m"),      mutoolExecutablePath};
   // 开始执行命令，转换完成后发送信号，根据转换结果更新第三页的页面
-  emit convertionFinished(process.execute(caj2pdfExecutablePath, args) == 0,
+  emit conversionFinished(process.execute(caj2pdfExecutablePath, args) == 0,
                           inputFilePath);
 }

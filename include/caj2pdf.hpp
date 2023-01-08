@@ -144,11 +144,11 @@ class CAJ2PDF : public QDialog {
 };
 
 // 用于执行转换的线程
-class ConvertionThread : public QThread {
+class ConversionThread : public QThread {
   Q_OBJECT
 
  public:
-  explicit ConvertionThread(QObject *parent = nullptr,
+  explicit ConversionThread(QObject *parent = nullptr,
                             CAJ2PDF *instance = nullptr,
                             QString inputFilePath = "",
                             std::string outputDirectory = "");
@@ -158,7 +158,7 @@ class ConvertionThread : public QThread {
   // 转换完成信号
   // status 表示转换成功与否；
   // inputFilePath 表示待转换文件的路径
-  void convertionFinished(bool status, QString inputFilePath);
+  void conversionFinished(bool status, QString inputFilePath);
 
  private:
   CAJ2PDF *instance;
