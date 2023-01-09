@@ -16,7 +16,11 @@ jobs:
         run: |
           choco uninstall mingw --force
           choco uninstall strawberryperl --force
-      - name: Install Qt
+      # - name: Install Qt via Chocolatey
+      #   run: |
+      #     choco install -y qt5-default cmake ninja
+      #     refreshenv
+      - name: Install Qt via Action
         uses: jurplel/install-qt-action@v3
         with:
           aqtversion: "==2.1.*"
@@ -24,18 +28,24 @@ jobs:
           host: "windows"
           target: "desktop"
           arch: "win64_mingw81"
-          tools: "tools_cmake tools_ninja"
+          tools: "tools_cmake tools_ninja tools_mingw,qt.tools.win64_mingw810"
+      - name: Setup PATH
+        run: |
+          echo $env:Qt5_Dir\bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo $env:IQTA_TOOLS\mingw810_64\bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
       - name: Build Project
+        shell: cmd
         run: |
-          $env:Path = $env:Qt5_Dir + "\\bin;" + $env:IQTA_TOOLS + "\\mingw810_64\\bin;" + $env:Path
+          echo %PATH%
+          dir %Qt5_Dir%\bin
+          dir %IQTA_TOOLS%\mingw810_64\bin
+          where windres
+          where c++
           python build-windows.py ${{ runner.workspace }}\Qt
-          # Copy-Item $env:Qt5_Dir"\\bin\\libgcc*" dist
-          # Copy-Item $env:Qt5_Dir"\\bin\\libstdc++*" dist
-          # Copy-Item $env:Qt5_Dir"\\bin\\libwinpthread*" dist
       - name: Add mutool.exe
         run: |
           Invoke-RestMethod -Uri https://mupdf.com/downloads/archive/mupdf-1.21.0-windows-tesseract.zip -OutFile mupdf-release.zip
