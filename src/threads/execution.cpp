@@ -33,8 +33,7 @@ void ExecutionThread::run() {
   int threadCount = QThread::
       idealThreadCount();  // 当前计算机的处理器核心数，包含了物理核心和逻辑核心
   std::queue<ConversionThread *> conversionThreads;  // 转换线程队列
-  instance->convertStatus = statusConverting;  // 设置转换状态为正在转换
-  for (QString inputFile : inputFiles) {       // 遍历所有输入文件
+  for (QString inputFile : inputFiles) {    // 遍历所有输入文件
     // 检查当前线程数是否已达最大线程数
     // 如果是的话就等待队首线程执行完毕再继续
     while (conversionThreads.size() >= threadCount) {

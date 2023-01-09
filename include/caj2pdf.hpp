@@ -45,10 +45,10 @@ class CAJ2PDF;
 QT_END_NAMESPACE
 
 // 转换状态
-enum ConvertStatus {
-  statusNotStarted,  // 尚未开始
-  statusConverting,  // 正在转换
-  statusFinished     // 转换完成
+enum ConversionStatus {
+  NotStarted,  // 尚未开始
+  InProgress,  // 正在转换
+  Finished     // 转换完成
 };
 
 class CAJ2PDF : public QDialog {
@@ -57,7 +57,6 @@ class CAJ2PDF : public QDialog {
  public:
   CAJ2PDF(QWidget *parent = nullptr, std::string argv0 = nullptr);
   ~CAJ2PDF();
-  ConvertStatus convertStatus;  // 转换状态，用来设置按钮的行为
 
  protected:
   virtual bool eventFilter(QObject *object,
@@ -88,6 +87,7 @@ class CAJ2PDF : public QDialog {
   Ui::CAJ2PDF *ui;
   std::string version;  // 版本信息
   std::string outputDirectory;  // 输出目录，默认为第一个输入文件所在的目录
+  ConversionStatus conversionStatus;  // 转换状态，用来设置按钮的行为
 
   // 第一页
   void uiPage1(void);

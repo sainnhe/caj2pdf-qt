@@ -50,7 +50,7 @@ void CAJ2PDF::handlePage2NextButton() {
   navigationList->item(2)->setFlags(
       navigationList->item(2)->flags().setFlag(Qt::ItemIsEnabled, true));
   // 若转换尚未开始，则更新 outputDirectory 和 progressBar ，然后开始转换。
-  if (convertStatus == statusNotStarted) {
+  if (conversionStatus == NotStarted) {
     outputDirectory = selectOutputLineEdit->text().toStdString();
     progressBar->setRange(0, inputFiles.count());
     progressBar->setValue(0);
@@ -62,5 +62,7 @@ void CAJ2PDF::handlePage2NextButton() {
             SLOT(updatePage3FinishedStatus()));
     // 开始执行
     executionThread->start();
+    // 设置转换状态为正在转换
+    conversionStatus = InProgress;
   }
 }

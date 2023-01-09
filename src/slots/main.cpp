@@ -17,7 +17,7 @@
  *
  */
 void CAJ2PDF::handleCancelButton() {
-  if (convertStatus == statusNotStarted || convertStatus == statusFinished) {
+  if (conversionStatus == NotStarted || conversionStatus == Finished) {
     QApplication::quit();
   } else {
     switch (QMessageBox::question(

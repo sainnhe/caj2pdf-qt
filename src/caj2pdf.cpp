@@ -18,13 +18,12 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
   setWindowFlags(windowFlags() |
                  Qt::WindowContextHelpButtonHint);  // 启用窗口右上角的 ？按钮
   qApp->installEventFilter(this);                   // 安装事件
-  convertStatus = statusNotStarted;  // 设置转换状态
-  inputFiles = QList<QString>();     // 初始化一个空的 QList<QString>
-  uiPage1();                         // 设置第一页的 UI
-  uiPage2();                         // 设置第二页的 UI
-  uiPage3();                         // 设置第三页的 UI
-  uiMain();                          // 设置总体 UI
+  conversionStatus = NotStarted;                    // 设置转换状态
+  inputFiles = QList<QString>();  // 初始化一个空的 QList<QString>
+  uiPage1();                      // 设置第一页的 UI
+  uiPage2();                      // 设置第二页的 UI
+  uiPage3();                      // 设置第三页的 UI
+  uiMain();                       // 设置总体 UI
 }
 
 CAJ2PDF::~CAJ2PDF() { delete ui; }
-
