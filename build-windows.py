@@ -46,7 +46,7 @@ os.mkdir(build_dir)
 os.chdir(workdir)
 subprocess.run(["windres", "app.rc", "-o", "build\\app.o"])
 os.chdir(build_dir)
-subprocess.run(["cmake", "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", "build\\app.o"])
+subprocess.run(["cmake", "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", ".."])
 subprocess.run(["cmake", "--build", ".", "--parallel", str(os.cpu_count())])
 os.chdir(dist_dir)
 move(join(build_dir, "caj2pdf.exe"),
