@@ -15,7 +15,8 @@ import subprocess
 # update submodules
 workdir = os.getcwd()
 os.chdir(workdir)
-subprocess.run(["git", "submodule", "update", "--init", "--recursive", "caj2pdf"])
+subprocess.run(["git", "submodule", "update",
+               "--init", "--recursive", "caj2pdf"])
 subprocess.run(["git", "clean", "-dfx", "--", "."])
 
 # build cli
@@ -25,8 +26,10 @@ subprocess.run(["git", "clean", "-dfx", "--", "."])
 subprocess.run(["git", "checkout", "--", "."])
 subprocess.run(["git", "apply", "../patches/caj2pdf.diff"])
 subprocess.run([sys.executable, "-m", "venv", "venv"])
-subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "-r", "requirements.txt", "-i", "https://mirrors.aliyun.com/pypi/simple"])
-subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install", "pyinstaller", "-i", "https://mirrors.aliyun.com/pypi/simple"])
+subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install",
+               "-r", "requirements.txt", "-i", "https://mirrors.aliyun.com/pypi/simple"])
+subprocess.run([".\\venv\\Scripts\\python.exe", "-m", "pip", "install",
+               "pyinstaller", "-i", "https://mirrors.aliyun.com/pypi/simple"])
 subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])
 subprocess.run(["git", "checkout", "--", "."])
 
