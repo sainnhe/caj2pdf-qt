@@ -98,6 +98,7 @@ _package() {
         cp mupdf/build/release/mutool dist/caj2pdf.app/Contents/MacOS/external/
         cp caj2pdf/dist/caj2pdf dist/caj2pdf.app/Contents/MacOS/external/
         cp caj2pdf/lib/*.so dist/caj2pdf.app/Contents/MacOS/external/
+        cp icons/convert.icns dist/caj2pdf.app/Contents/Resources/
     else
         cp build/caj2pdf dist/
         mkdir dist/external
