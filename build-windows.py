@@ -31,16 +31,30 @@ subprocess.run([".\\venv\\Scripts\\pyinstaller.exe", "-F", "caj2pdf"])
 subprocess.run(["git", "checkout", "--", "."])
 
 # build project
-dist_dir = join(workdir, "dist")
-build_external_dir = join(dist_dir, "external")
-os.mkdir(dist_dir)
-os.mkdir(build_external_dir)
 os.chdir(workdir)
-subprocess.run(["windres", "app.rc", "-o", "app.o"])
+subprocess.run(["git", "clean", "-dfx", "--", "."])
+qt_path = sys.argv[1]
+cmake_path = qt_path + "\\Tools\\CMake_64\\bin"
+ninja_path = qt_path + "\\Tools\\Ninja"
+os.environ["PATH"] = cmake_path + ";" + ninja_path + ";" + os.environ["PATH"]
+dist_dir = join(workdir, "dist")
+os.mkdir(dist_dir)
+dist_external_dir = join(dist_dir, "external")
+os.mkdir(dist_external_dir)
+build_dir = join(workdir, "build")
+os.mkdir(build_dir)
+os.chdir(workdir)
+subprocess.run(["windres", "app.rc", "-o", "build\\app.o"])
+os.chdir(build_dir)
+subprocess.run(["cmake", "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", "build\\app.o"])
+subprocess.run(["cmake", "--build", ".", "--parallel", str(os.cpu_count())])
 os.chdir(dist_dir)
+move(join(build_dir, "caj2pdf.exe"),
+     dist_dir)
 move(join(join(workdir_cli, "dist"), "caj2pdf.exe"),
-     join(build_external_dir, "caj2pdf.exe"))
+     join(dist_external_dir, "caj2pdf.exe"))
 copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbigdec-w64.dll"),
          join(join(dist_dir, "external"), "libjbigdec.dll"))
 copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbig2codec-w64.dll"),
          join(join(dist_dir, "external"), "libjbig2codec.dll"))
+subprocess.run(["windeployqt", "caj2pdf.exe"])
