@@ -1,0 +1,41 @@
+name: Build for macOS
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-11
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==2.1.*'
+          version: '5.15.2'
+          host: 'mac'
+          target: 'desktop'
+          arch: 'clang_64'
+      - name: Install Dependencies
+        run: |
+          brew install cmake pkg-config jbig2dec
+      - name: Build Project
+        run: ./build-unix.sh
+      - name: Archive Artifact
+        run: tar cvf caj2pdf-qt-macos-x86_64-${{  github.ref_name }}.zip -C dist .
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: caj2pdf-qt-macos-x86_64-${{  github.ref_name }}.zip
+          path: caj2pdf-qt-macos-x86_64-${{  github.ref_name }}.zip
+      - name: Upload to Release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: caj2pdf-qt-macos-x86_64-${{  github.ref_name }}.zip
+          tags: true
