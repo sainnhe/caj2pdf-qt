@@ -60,4 +60,4 @@ copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbigdec-w64.dll"),
          join(join(dist_dir, "external"), "libjbigdec.dll"))
 copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbig2codec-w64.dll"),
          join(join(dist_dir, "external"), "libjbig2codec.dll"))
-subprocess.run(["windeployqt", "--compiler-runtime", "caj2pdf.exe"])
+subprocess.run(["windeployqt", "caj2pdf.exe"])
