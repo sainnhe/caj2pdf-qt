@@ -1,8 +1,16 @@
 ![caj2pdf-qt](https://gitlab.com/sainnhe/img/-/raw/master/caj2pdf-qt.png)
 
-## 关于
+## 介绍
 
 这是一个 GUI 版本的 CAJ 转 PDF 转换器，基于 [caj2pdf](https://github.com/caj2pdf/caj2pdf) 和 [mupdf](https://mupdf.com) 实现。
+
+特性：
+
+- [x] 跨平台 (Windows 7, 8, 10, 11; macOS; Linux)
+- [x] 多线程转换
+- [x] 批量转换
+- [x] 文件拖拽
+- [ ] 闭源引擎 ([caj2pdf#63](https://github.com/caj2pdf/caj2pdf/issues/63))
 
 ## 安装
 
