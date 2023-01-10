@@ -14,9 +14,9 @@
 
 ## 安装
 
-[GitHub Release](https://github.com/sainnhe/caj2pdf-qt/releases) 页面提供了编译好的 Windows x86_64 版本和 macOS aarch64 版本，你可以从这个页面直接下载（可能需要科学上网）。
+[GitHub Release](https://github.com/sainnhe/caj2pdf-qt/releases) 页面提供了用 GitHub Action 自动构建的 Windows 和 macOS 版本，你可以从这个页面直接下载（可能需要科学上网）。
 
-如果暂时无法科学上网，可以通过 [GitHub Proxy](https://ghproxy.com) 镜像加速器下载。将 GitHub Release 页面的下载链接复制粘贴到输入框即可下载。
+如果暂时无法科学上网，可以通过 [GitHub Proxy](https://ghproxy.com) 镜像加速器下载。
 
 Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/) 或我的[个人仓库](https://repo.sainnhe.dev/archlinux/)安装。
 
@@ -40,9 +40,9 @@ MacPorts 用户可以从我的[个人仓库](https://repo.sainnhe.dev/macports/)
 
 ### macOS
 
-解压后拖到“应用程序”文件夹中，这时候如果直接运行会提示已损坏。
+解压后拖到“应用程序”文件夹中即可。
 
-打开终端，运行以下命令：
+如果提示应用已损坏，打开终端，运行以下命令：
 
 ```bash
 xattr -cr /Applications/caj2pdf.app
