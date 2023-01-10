@@ -9,7 +9,7 @@
 #include "caj2pdf.hpp"
 
 CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0) : QDialog(parent) {
-  version = "0.1.4";       // 设置版本号
+  version = "0.1.5";       // 设置版本号
   this->resize(700, 500);  // 调整窗口大小
   setAcceptDrops(true);    // 设置支持鼠标推拽
   setWindowFlags(windowFlags() |
