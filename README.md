@@ -7,8 +7,8 @@
 特性：
 
 - [x] 跨平台 (Windows 7, 8, 10, 11; macOS; Linux)
-- [x] 多线程转换
 - [x] 批量转换
+- [x] 多线程转换
 - [x] 文件拖拽
 - [ ] 闭源引擎 ([caj2pdf#63](https://github.com/caj2pdf/caj2pdf/issues/63))
 
