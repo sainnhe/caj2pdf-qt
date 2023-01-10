@@ -8,13 +8,10 @@
 
 #include "caj2pdf.hpp"
 
-#include "./ui_caj2pdf.h"
-
-CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
-    : QDialog(parent), ui(new Ui::CAJ2PDF) {
-  version = "0.1.4";
-  ui->setupUi(this);
-  setAcceptDrops(true);  // 设置支持鼠标推拽
+CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0) : QDialog(parent) {
+  version = "0.1.4";       // 设置版本号
+  this->resize(700, 500);  // 调整窗口大小
+  setAcceptDrops(true);    // 设置支持鼠标推拽
   setWindowFlags(windowFlags() |
                  Qt::WindowContextHelpButtonHint);  // 启用窗口右上角的 ？按钮
   qApp->installEventFilter(this);                   // 安装事件
@@ -26,4 +23,4 @@ CAJ2PDF::CAJ2PDF(QWidget *parent, std::string argv0)
   uiMain();                       // 设置总体 UI
 }
 
-CAJ2PDF::~CAJ2PDF() { delete ui; }
+CAJ2PDF::~CAJ2PDF() {}
