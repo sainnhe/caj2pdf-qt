@@ -4,17 +4,14 @@
 
 ## [Unreleased]
 
-### Added
-
-- 支持 Windows 32bit
-
-## [0.1.5] - 2023-01-10
+## [0.1.5] - 2023-01-11
 
 ### Added
 
 - 添加修复 macOS 下提示应用已损坏的文档
 - 多线程转换
 - 用 GitHub Action 构建 Windows 和 macOS 的可执行文件。
+- 支持 Windows 32bit
 
 ### Changed
 
