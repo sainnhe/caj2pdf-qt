@@ -64,5 +64,7 @@ void CAJ2PDF::handlePage2NextButton() {
     executionThread->start();
     // 设置转换状态为正在转换
     conversionStatus = InProgress;
+    // 禁用第二页的下一步按钮
+    page2NextButton->setDisabled(true);
   }
 }

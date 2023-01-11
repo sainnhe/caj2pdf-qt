@@ -54,7 +54,7 @@ void CAJ2PDF::updatePage3Progress(bool status, QString inputFilePath) {
  */
 void CAJ2PDF::updatePage3FinishedStatus() {
   conversionStatus = Finished;           // 设置转换状态为转换结束
-  page3NextButton->setDisabled(false);   // 启用第三页的“完成”按钮
+  page3NextButton->setEnabled(true);     // 启用第三页的“完成”按钮
   page3CancelButton->setDisabled(true);  // 禁用第三页的“取消”按钮
   page3PrevButton->setDisabled(true);  // 禁用第三页的“上一步”按钮
   // 禁用侧边栏
