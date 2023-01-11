@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-x86_64:
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -29,12 +29,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
+          architecture: 'x64'
       - name: Build Project
         run: |
-          python build-windows.py ${{ runner.workspace }}\Qt
+          python build-windows.py ${{ runner.workspace }}\Qt 64bit
       - name: Add mutool.exe
         run: |
-          Invoke-RestMethod -Uri https://mupdf.com/downloads/archive/mupdf-1.21.0-windows-tesseract.zip -OutFile mupdf-release.zip
+          Invoke-RestMethod -Uri https://mupdf.com/downloads/archive/mupdf-1.8-windows-x64.zip -OutFile mupdf-release.zip
           Expand-Archive -LiteralPath mupdf-release.zip -DestinationPath mupdf-release
           Copy-Item .\mupdf-release\**\mutool.exe dist\external
       - name: Archive Artifact
@@ -50,4 +51,49 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: caj2pdf-qt-windows-x86_64-${{  github.ref_name }}.zip
+          tags: true
+  build-x86:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: "==2.1.*"
+          version: "5.15.2"
+          host: "windows"
+          target: "desktop"
+          arch: "win32_mingw81"
+          tools: "tools_cmake tools_ninja tools_mingw,qt.tools.win32_mingw810"
+      - name: Setup PATH
+        run: |
+          echo $env:Qt5_Dir\bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo $env:IQTA_TOOLS\mingw810_32\bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+          architecture: 'x86'
+      - name: Build Project
+        run: |
+          python build-windows.py ${{ runner.workspace }}\Qt 32bit
+      - name: Add mutool.exe
+        run: |
+          Invoke-RestMethod -Uri https://mupdf.com/downloads/archive/mupdf-1.8-windows.zip -OutFile mupdf-release.zip
+          Expand-Archive -LiteralPath mupdf-release.zip -DestinationPath mupdf-release
+          Copy-Item .\mupdf-release\**\mutool.exe dist\external
+      - name: Archive Artifact
+        run: Compress-Archive dist\* caj2pdf-qt-windows-x86-${{  github.ref_name }}.zip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: caj2pdf-qt-windows-x86-${{  github.ref_name }}.zip
+          path: caj2pdf-qt-windows-x86-${{  github.ref_name }}.zip
+      - name: Upload to Release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: caj2pdf-qt-windows-x86-${{  github.ref_name }}.zip
           tags: true

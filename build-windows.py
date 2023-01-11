@@ -56,8 +56,14 @@ move(join(build_dir, "caj2pdf.exe"),
      dist_dir)
 move(join(join(workdir_cli, "dist"), "caj2pdf.exe"),
      join(dist_external_dir, "caj2pdf.exe"))
-copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbigdec-w64.dll"),
-         join(join(dist_dir, "external"), "libjbigdec.dll"))
-copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbig2codec-w64.dll"),
-         join(join(dist_dir, "external"), "libjbig2codec.dll"))
+if sys.argv[2] == "64bit":
+    copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbigdec-w64.dll"),
+             join(join(dist_dir, "external"), "libjbigdec.dll"))
+    copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbig2codec-w64.dll"),
+             join(join(dist_dir, "external"), "libjbig2codec.dll"))
+else:
+    copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbigdec-w32.dll"),
+             join(join(dist_dir, "external"), "libjbigdec.dll"))
+    copyfile(join(join(join(workdir_cli, "lib"), "bin"), "libjbig2codec-w32.dll"),
+             join(join(dist_dir, "external"), "libjbig2codec.dll"))
 subprocess.run(["windeployqt", "caj2pdf.exe"])

@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- 支持 Windows 32bit
+
 ## [0.1.5] - 2023-01-10
 
 ### Added
