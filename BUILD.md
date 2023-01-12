@@ -2,6 +2,8 @@
 
 ### Requirements
 
+以下依赖为构建时所需的依赖，构建完成后都可以删除：
+
 - git
 - qt5 (安装了 MinGW 8 和 CMake)
 - python3.8 (因为这是最后一个支持 Windows 7 的版本)
@@ -35,6 +37,8 @@
 
 ### Requirements
 
+以下依赖为构建时所需的依赖，构建完成后都可以删除。
+
 - C/C++ 编译工具 (GCC 或 Clang)
 - git
 - qt5
@@ -58,6 +62,8 @@ $ ./build-unix.sh
 
 ### Requirements
 
+以下依赖为构建时所需的依赖，构建完成后都可以删除：
+
 - C/C++ 编译工具 (GCC 或 Clang)
 - git
 - qt5
@@ -66,6 +72,12 @@ $ ./build-unix.sh
 - make
 - pkg-config
 - jbig2dec
+
+以下依赖为运行时所需的依赖，构建完成后需要保留：
+
+- qt5
+- jbig2dec
+- mupdf (需要有 `mutool` 可执行文件)
 
 ### Steps
 

@@ -14,9 +14,12 @@ cd "${BASEDIR}"
 
 # 初始化 Git 仓库，清理缓存，检查依赖
 _init() {
-    git submodule update --init --recursive caj2pdf mupdf
+    if [ "$(uname)" = Darwin ]; then
+        git submodule update --init --recursive caj2pdf mupdf
+    else
+        git submodule update --init --recursive caj2pdf
+    fi
     git clean -dfx -- .
-    git checkout -- .
     cd "${BASEDIR}/caj2pdf"
     git clean -dfx -- .
     git checkout -- .
@@ -34,6 +37,8 @@ _init() {
     [ -x "$(command -v qmake)" ] || echo "Qt not installed"
     if [ "$(uname)" = Darwin ]; then
         [ -x "$(command -v macdeployqt)" ] || echo "Command 'macdeployqt' not found"
+    else
+        [ -x "$(command -v mutool)" ] || echo "Command 'mutool' not found"
     fi
 }
 
@@ -102,7 +107,7 @@ _package() {
     else
         cp build/caj2pdf dist/
         mkdir dist/external
-        cp mupdf/build/release/mutool dist/external/
+        ln -s $(which mutool) dist/external/
         cp caj2pdf/dist/caj2pdf dist/external/
         cp caj2pdf/lib/*.so dist/external/
     fi
@@ -121,7 +126,9 @@ elif [ "${1}" = package ]; then
 else
     _init
     _cli
-    _mupdf
+    if [ "$(uname)" = Darwin ]; then
+        _mupdf
+    fi
     _qt
     _package
 fi
