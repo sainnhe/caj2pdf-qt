@@ -1,3 +1,6 @@
-remote_theme: pages-themes/time-machine@v0.2.0
+remote_theme: pages-themes/merlot@v0.2.0
 plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have one
+- jekyll-remote-theme
+title: CAJ2PDF Qt
+description: CAJ 转 PDF 转换器（GUI 版本）
+show_downloads: false
