@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- 切换 GitHub Pages 主题，并添加下载按钮。
+
 ## [0.1.5] - 2023-01-11
 
 ### Added
