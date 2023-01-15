@@ -51,7 +51,7 @@ MacPorts 用户可以从我的[个人仓库](https://repo.sainnhe.dev/macports/)
 xattr -cr /Applications/caj2pdf.app
 ```
 
-**注意：**如果转换失败，尝试一下从命令行启动程序而不是从启动器启动 [sainnhe/caj2pdf-qt#9](https://github.com/sainnhe/caj2pdf-qt/issues/9)。打开终端，执行以下命令
+**注意**：如果转换失败，尝试一下从命令行启动程序而不是从启动器启动 [sainnhe/caj2pdf-qt#9](https://github.com/sainnhe/caj2pdf-qt/issues/9)。打开终端，执行以下命令
 
 ```bash
 /Applications/caj2pdf.app/Contents/MacOS/caj2pdf
