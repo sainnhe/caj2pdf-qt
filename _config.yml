@@ -5,5 +5,5 @@ title: CAJ2PDF Qt
 description: CAJ 转 PDF 转换器（GUI 版本）
 show_downloads: true
 github:
-  windows_url: https://ghproxy.com/https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.5/caj2pdf-qt-windows-x86_64-v0.1.5.zip
-  macos_url: https://ghproxy.com/https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.5/caj2pdf-qt-macos-x86_64-v0.1.5.zip
+  windows_url: https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.6/caj2pdf-qt-windows-x86_64-v0.1.6.zip
+  macos_url: https://github.com/sainnhe/caj2pdf-qt/releases/download/v0.1.6/caj2pdf-qt-macos-x86_64-v0.1.6.zip

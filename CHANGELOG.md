@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.6] - 2024-03-31
+
+### Added
+
 - 支持 .kdh 和 .nh 文件
 
 ### Changed
@@ -64,7 +68,8 @@
 
 - 完成初始版本。
 
-[unreleased]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.5...HEAD
+[unreleased]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/sainnhe/caj2pdf-qt/compare/v0.1.2...v0.1.3
