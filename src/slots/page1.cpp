@@ -19,7 +19,7 @@
 void CAJ2PDF::handlePage1SelectInputButton() {
   // 添加新选择的文件
   inputFiles += QFileDialog::getOpenFileNames(
-      this, tr("打开 CAJ 文件"), QDir::homePath(), tr("CAJ 文件 (*.caj)"));
+      this, tr("打开 CAJ 文件"), QDir::homePath(), tr("CAJ/KDH/NH 文件 (*.caj *.kdh *.nh)"));
   // 删除重复文件
   QVector<QString> inputFilesVec = inputFiles.toVector();
   std::sort(inputFilesVec.begin(), inputFilesVec.end());

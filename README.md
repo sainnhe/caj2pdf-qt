@@ -6,6 +6,7 @@
 
 特性：
 
+- [x] 支持 CAJ/KDH/NH 文件格式
 - [x] 跨平台 (Windows 7, 8, 10, 11; macOS; Linux)
 - [x] 支持 32 & 64 位 CPU 架构
 - [x] 批量转换

@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- 支持 .kdh 和 .nh 文件
+
 ### Changed
 
 - 切换 GitHub Pages 主题，并添加下载按钮。
