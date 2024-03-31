@@ -18,7 +18,7 @@
 
 [GitHub Release](https://github.com/sainnhe/caj2pdf-qt/releases) 页面提供了用 GitHub Action 自动构建的 Windows 和 macOS 版本，你可以从这个页面直接下载（可能需要科学上网）。
 
-如果暂时无法科学上网，可以通过 [GitHub Proxy](https://ghproxy.com) 镜像加速器下载。
+如果暂时无法科学上网，可以通过 [GitHub Proxy](https://mirror.ghproxy.com/) 镜像加速器下载。
 
 Arch Linux 用户可以从 [AUR](https://aur.archlinux.org/packages/caj2pdf-qt/) 或我的[个人仓库](https://repo.sainnhe.dev/archlinux/)安装。
 
